@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastDash - Restaurant Registration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">🍽️</div>
+                    <h1 class="logo-text">FastDash</h1>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="login-link">Log in</a>
+                    <div class="user-icon">👤</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- Left Side - Image/Visual -->
+                <div class="visual-section">
+                    <div class="image-placeholder">
+                        <div class="placeholder-icon">🏔️☀️</div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Registration Form -->
+                <div class="form-section">
+                    <div class="form-container">
+                        <h2 class="form-title">Get Started</h2>
+                        <p class="login-prompt">Already have an account? <a href="#" class="login-link-inline">Log in</a></p>
+
+                        <form class="registration-form" id="registrationForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="firstName" name="firstName" placeholder="Enter first name..." required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="lastName" name="lastName" placeholder="Enter last name..." required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Enter email..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="tel" id="phone" name="phone" placeholder="Enter phone number..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="restaurantName" name="restaurantName" placeholder="Enter Restaurant Name..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="address" name="address" placeholder="Enter store address..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="hours" name="hours" placeholder="Enter hours of operation..." required>
+                            </div>
+
+                            <div class="upload-section">
+                                <div class="upload-group">
+                                    <label for="menuUpload" class="upload-button">
+                                        <span class="upload-icon">📄</span>
+                                        Upload Menu
+                                    </label>
+                                    <input type="file" id="menuUpload" name="menuUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" hidden>
+                                    <span class="file-name" id="menuFileName"></span>
+                                </div>
+
+                                <div class="upload-group">
+                                    <label for="logoUpload" class="upload-button">
+                                        <span class="upload-icon">🖼️</span>
+                                        Upload logo (optional)
+                                    </label>
+                                    <input type="file" id="logoUpload" name="logoUpload" accept=".jpg,.jpeg,.png,.svg" hidden>
+                                    <span class="file-name" id="logoFileName"></span>
+                                </div>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="smsOptIn" name="smsOptIn" checked>
+                                    <span class="checkmark"></span>
+                                    Opt in to SMS text messages
+                                </label>
+                            </div>
+
+                            <button type="submit" class="submit-button">Submit & Start Selling</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
