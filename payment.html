@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Payment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='payment';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <a class="icon-btn" href="checkout.html">←</a>
+            <div class="brand">FrontDash</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 123 main str</a>
+                <a class="icon-btn" href="#">🔔</a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">0</span></a>
+            </div>
+        </header>
+
+        <main class="payment-page">
+            <section class="checkout-main">
+                <div class="section-block">
+                    <div class="block-title">3. Payment details</div>
+                    <button class="btn" id="openCardModal">Add New Card</button>
+                </div>
+            </section>
+            <aside class="checkout-summary">
+                <div class="summary-card">
+                    <div class="summary-title">Order Summary</div>
+                    <div class="summary-row"><span>Total</span><span id="paymentTotal">$0.00</span></div>
+                    <a class="btn" href="confirmation.html" id="confirmPayment">Confirm</a>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <div class="modal" id="cardModal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>Add New Card</div>
+                <button class="icon-btn" id="closeCardModal">✕</button>
+            </div>
+            <div class="modal-body grid-2">
+                <label class="input"><input type="text" id="cardNumber" placeholder="Card Number"></label>
+                <label class="input"><input type="text" id="cvv" placeholder="CVV"></label>
+                <label class="input"><input type="text" id="expiration" placeholder="Expiration"></label>
+                <label class="input"><input type="text" id="zip" placeholder="Zip Code"></label>
+                <button class="btn" id="saveCard">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

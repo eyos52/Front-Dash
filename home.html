@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='home';</script>
+    <script defer src="app.js"></script>
+    <script defer src="script.js"></script>
+    <!-- script.js included for base behaviors; safe no-ops on this page -->
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <button class="icon-btn" aria-label="menu">☰</button>
+            <div class="brand">FrontDash</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 123 main str</a>
+                <a class="icon-btn" href="#" title="notifications">🔔</a>
+                <a class="pill" href="checkout.html" id="cartPill">🛒 <span id="cartCount">0</span></a>
+            </div>
+        </header>
+
+        <div class="fd-body">
+            <aside class="sidebar">
+                <a class="side-btn" href="#">Button</a>
+                <a class="side-btn" href="#">Grocery</a>
+                <a class="side-btn" href="#">Retail</a>
+                <a class="side-btn" href="#">Alcohol</a>
+                <a class="side-btn" href="#">Pets</a>
+                <a class="side-btn" href="#">Beauty</a>
+                <a class="side-btn" href="#">Gift Cards</a>
+                <a class="side-btn" href="#">Browse All</a>
+                <div class="spacer"></div>
+                <a class="side-btn" href="checkout.html">Orders</a>
+                <a class="side-btn" href="#">Account</a>
+            </aside>
+
+            <main class="content">
+                <div class="section-header">
+                    <h2>Fastest near you</h2>
+                    <a class="see-all" href="#">See All ↗</a>
+                </div>
+                <div class="card-grid">
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant A">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.7 ★ (500+) · 0.3 mi</div>
+                    </a>
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant B">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.2 ★ (500+) · 0.3 mi</div>
+                    </a>
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant C">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.2 ★ (500+) · 0.3 mi</div>
+                    </a>
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant D">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">3.2 ★ (500+) · 0.3 mi</div>
+                    </a>
+                </div>
+
+                <h3 class="section-title">Today Saving</h3>
+                <div class="card-grid">
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant E">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.7 ★ (500+) · 0.3 mi</div>
+                    </a>
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant F">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.7 ★ (500+) · 0.3 mi</div>
+                    </a>
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant G">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.7 ★ (500+) · 0.3 mi</div>
+                    </a>
+                    <a class="restaurant-card" href="restaurant.html" data-name="Restaurant H">
+                        <div class="card-img"></div>
+                        <div class="card-title">Restaurant Name</div>
+                        <div class="card-sub">4.7 ★ (500+) · 0.3 mi</div>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

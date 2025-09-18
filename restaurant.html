@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Restaurant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='restaurant';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <a class="icon-btn" href="home.html" aria-label="back">←</a>
+            <div class="brand">FrontDash</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 123 main str</a>
+                <a class="icon-btn" href="#">🔔</a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">0</span></a>
+            </div>
+        </header>
+
+        <main class="restaurant-page">
+            <div class="hero"></div>
+
+            <div class="restaurant-toolbar">
+                <div class="restaurant-name" id="restaurantName">Whataburger</div>
+                <div class="toolbar-controls">
+                    <button class="btn-toggle active" data-mode="delivery">Delivery</button>
+                    <button class="btn-toggle" data-mode="pickup">Pickup</button>
+                    <div class="pill">28 min delivery time</div>
+                </div>
+            </div>
+
+            <section class="menu-section">
+                <div class="section-header">
+                    <h3>Featured Items</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search menu...">
+                    </div>
+                </div>
+
+                <div class="menu-grid">
+                    <div class="menu-card" data-item-id="1" data-item-name="#1 Whataburger" data-item-price="13.83">
+                        <div class="card-img"></div>
+                        <div class="menu-info">
+                            <div class="menu-title">#1 Whataburger</div>
+                            <div class="menu-sub">Large Bun(s), American Cheese…</div>
+                        </div>
+                        <button class="add-btn">Add $13.83</button>
+                    </div>
+                    <div class="menu-card" data-item-id="2" data-item-name="#2 Double Whataburger" data-item-price="11.29">
+                        <div class="card-img"></div>
+                        <div class="menu-info">
+                            <div class="menu-title">#2 Double Whataburger</div>
+                        </div>
+                        <button class="add-btn">Add $11.29</button>
+                    </div>
+                    <div class="menu-card" data-item-id="3" data-item-name="#3 Whatachick Whataburger" data-item-price="9.99">
+                        <div class="card-img"></div>
+                        <div class="menu-info">
+                            <div class="menu-title">#3 Whatachick Whataburger</div>
+                        </div>
+                        <button class="add-btn">Add $9.99</button>
+                    </div>
+                    <div class="menu-card" data-item-id="4" data-item-name="#4 Patty Melt" data-item-price="8.49">
+                        <div class="card-img"></div>
+                        <div class="menu-info">
+                            <div class="menu-title">#4 Patty Melt</div>
+                        </div>
+                        <button class="add-btn">Add $8.49</button>
+                    </div>
+                    <div class="menu-card" data-item-id="5" data-item-name="#5 Chicken Tenders" data-item-price="6.29">
+                        <div class="card-img"></div>
+                        <div class="menu-info">
+                            <div class="menu-title">#5 Chicken Tenders</div>
+                        </div>
+                        <button class="add-btn">Add $6.29</button>
+                    </div>
+                    <div class="menu-card" data-item-id="6" data-item-name="#6 Sweet & Spicy Burger" data-item-price="12.29">
+                        <div class="card-img"></div>
+                        <div class="menu-info">
+                            <div class="menu-title">#6 Sweet & Spicy Burger</div>
+                        </div>
+                        <button class="add-btn">Add $12.29</button>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="mini-cart" id="miniCart" hidden>
+                <div class="mini-cart-header">
+                    <div>Your cart from <span id="cartRestaurant">Whataburger</span></div>
+                    <a class="btn" href="checkout.html">Continue</a>
+                </div>
+                <div class="mini-cart-items" id="miniCartItems"></div>
+                <div class="mini-cart-upsell">
+                    <div class="upsell-title">Complement your cart</div>
+                    <div class="upsell-grid">
+                        <div class="upsell-item"></div>
+                        <div class="upsell-item"></div>
+                        <div class="upsell-item"></div>
+                        <div class="upsell-item"></div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script defer src="app.js"></script>
+</body>
+</html>

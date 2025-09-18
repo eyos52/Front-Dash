@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Checkout</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='checkout';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <a class="icon-btn" href="restaurant.html">←</a>
+            <div class="brand">FrontDash</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 123 main str</a>
+                <a class="icon-btn" href="#">🔔</a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">0</span></a>
+            </div>
+        </header>
+
+        <main class="checkout-page">
+            <section class="checkout-main">
+                <div class="section-block">
+                    <div class="block-title">1. Account details</div>
+                </div>
+                <div class="section-block">
+                    <div class="block-title">2. Shipping details</div>
+                    <div class="address-hero">
+                        <div class="image-placeholder-sm"></div>
+                        <div class="delivery-toggle">
+                            <button class="btn-toggle active">Delivery</button>
+                            <button class="btn-toggle">Pickup</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-block">
+                    <div class="block-title">3. Payment details</div>
+                    <div class="payment-list">
+                        <a class="payment-option" href="payment.html">Credit/Debit Card</a>
+                        <a class="payment-option" href="payment.html">Paypal</a>
+                        <a class="payment-option" href="payment.html">Venmo</a>
+                        <a class="payment-option" href="payment.html">Cash App Pay</a>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="checkout-summary">
+                <div class="summary-card">
+                    <div class="summary-title">Your cart from <span id="summaryRestaurant">Whataburger</span></div>
+                    <div class="summary-items" id="summaryItems"></div>
+                    <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+                    <div class="summary-row"><span>Delivery Fee</span><span>$0.00</span></div>
+                    <div class="summary-row"><span>Fee & Estimated Tax</span><span id="fees">$0.00</span></div>
+                    <div class="summary-total"><span>Total</span><span id="total">$0.00</span></div>
+                    <a class="btn" href="payment.html" id="payBtn">Pay</a>
+
+                    <div class="address-row">
+                        <button class="address-btn" id="changeAddressBtn">🏠 10881 Sedalia Dr… ▸</button>
+                        <button class="address-btn">📞 (469)212-2341</button>
+                        <button class="address-btn">🎁 Send as a gift</button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <div class="modal" id="addressModal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>Change address</div>
+                <button class="icon-btn" id="closeAddressModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <label class="input">
+                    <input type="text" id="addressInput" placeholder="Address" value="10881 Sedalia Dr, McKinney, TX 75070 United States">
+                </label>
+                <button class="btn" id="confirmAddress">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
