@@ -13,7 +13,7 @@
     <div class="app-shell">
         <header class="fd-header">
             <a class="icon-btn" href="home.html" aria-label="back">←</a>
-            <div class="brand">FrontDash</div>
+            <div class="brand"><a href="home.html" id="brandLink">FrontDash</a></div>
             <div class="header-actions">
                 <a class="pill" href="#" id="addressPill">🏠 123 main str</a>
                 <a class="icon-btn" href="#">🔔</a>
@@ -41,51 +41,7 @@
                     </div>
                 </div>
 
-                <div class="menu-grid">
-                    <div class="menu-card" data-item-id="1" data-item-name="#1 Whataburger" data-item-price="13.83">
-                        <div class="card-img"></div>
-                        <div class="menu-info">
-                            <div class="menu-title">#1 Whataburger</div>
-                            <div class="menu-sub">Large Bun(s), American Cheese…</div>
-                        </div>
-                        <button class="add-btn">Add $13.83</button>
-                    </div>
-                    <div class="menu-card" data-item-id="2" data-item-name="#2 Double Whataburger" data-item-price="11.29">
-                        <div class="card-img"></div>
-                        <div class="menu-info">
-                            <div class="menu-title">#2 Double Whataburger</div>
-                        </div>
-                        <button class="add-btn">Add $11.29</button>
-                    </div>
-                    <div class="menu-card" data-item-id="3" data-item-name="#3 Whatachick Whataburger" data-item-price="9.99">
-                        <div class="card-img"></div>
-                        <div class="menu-info">
-                            <div class="menu-title">#3 Whatachick Whataburger</div>
-                        </div>
-                        <button class="add-btn">Add $9.99</button>
-                    </div>
-                    <div class="menu-card" data-item-id="4" data-item-name="#4 Patty Melt" data-item-price="8.49">
-                        <div class="card-img"></div>
-                        <div class="menu-info">
-                            <div class="menu-title">#4 Patty Melt</div>
-                        </div>
-                        <button class="add-btn">Add $8.49</button>
-                    </div>
-                    <div class="menu-card" data-item-id="5" data-item-name="#5 Chicken Tenders" data-item-price="6.29">
-                        <div class="card-img"></div>
-                        <div class="menu-info">
-                            <div class="menu-title">#5 Chicken Tenders</div>
-                        </div>
-                        <button class="add-btn">Add $6.29</button>
-                    </div>
-                    <div class="menu-card" data-item-id="6" data-item-name="#6 Sweet & Spicy Burger" data-item-price="12.29">
-                        <div class="card-img"></div>
-                        <div class="menu-info">
-                            <div class="menu-title">#6 Sweet & Spicy Burger</div>
-                        </div>
-                        <button class="add-btn">Add $12.29</button>
-                    </div>
-                </div>
+                <div class="menu-grid" id="menuGrid"></div>
             </section>
 
             <aside class="mini-cart" id="miniCart" hidden>
