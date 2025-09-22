@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Registration Queue</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='registration-queue';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header admin-header">
+            <div class="brand">FrontDash</div>
+        </header>
+        
+        <div class="admin-dashboard-container">
+            <aside class="admin-sidebar">
+                <nav class="admin-sidebar-nav">
+                    <a href="#" class="admin-nav-item active">Registration Queue</a>
+                    <a href="withdrawl-queue.html" class="admin-nav-item">Withdrawl Queue</a>
+                    <a href="staff-management.html" class="admin-nav-item">Staff Management</a>
+                    <a href="#" class="admin-nav-item">Driver Management</a>
+                    <a href="#" class="admin-nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="admin-main">
+                <div class="admin-header">
+                    <h1 class="admin-page-title">Registration Queue</h1>
+                </div>
+                
+                <div class="admin-controls">
+                    <div class="admin-tabs">
+                        <button class="admin-tab-btn" id="activeTab">Active</button>
+                        <button class="admin-tab-btn active" id="historyTab">History</button>
+                    </div>
+                    
+                    <div class="admin-search-section">
+                        <div class="admin-search-bar">
+                            <span class="admin-search-icon">🔍</span>
+                            <input type="text" placeholder="Search restaurant" class="admin-search-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="registrationTable">
+                        <thead>
+                            <tr id="tableHeaders">
+                                <th>Registration ID</th>
+                                <th>Restaurant Name</th>
+                                <th>Contact Info</th>
+                                <th>Submission Date</th>
+                                <th>Status</th>
+                                <th>Documents</th>
+                                <th>Decision Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td>1111111</td>
+                                <td>Jim's Hotdogs</td>
+                                <td>J@gmail.com</td>
+                                <td>06/11</td>
+                                <td><span class="admin-status-badge approved">Approved</span></td>
+                                <td><span class="admin-documents-icon">📁</span></td>
+                                <td>06/19</td>
+                            </tr>
+                            <tr>
+                                <td>232323</td>
+                                <td>Tim's Pizza</td>
+                                <td>t@gmail.com</td>
+                                <td>06/09</td>
+                                <td><span class="admin-status-badge rejected">Rejected</span></td>
+                                <td><span class="admin-documents-icon">📁</span></td>
+                                <td>06/25</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Admin Registration Queue functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminNavItems = document.querySelectorAll('.admin-nav-item');
+            const activeTabBtn = document.getElementById('activeTab');
+            const historyTabBtn = document.getElementById('historyTab');
+            const adminSearchInput = document.querySelector('.admin-search-input');
+            const tableHeaders = document.getElementById('tableHeaders');
+            const tableBody = document.getElementById('tableBody');
+
+            // Navigation functionality
+            adminNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const text = this.textContent.trim();
+                    
+                    // Remove active class from all items
+                    adminNavItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    switch(text) {
+                        case 'Registration Queue':
+                            // Stay on current page
+                            break;
+                        case 'Withdrawl Queue':
+                            window.location.href = 'withdrawl-queue.html';
+                            break;
+                        case 'Staff Management':
+                            window.location.href = 'staff-management.html';
+                            break;
+                        case 'Driver Management':
+                            alert('Driver Management page coming soon!');
+                            break;
+                        case 'Logout':
+                            window.location.href = 'admin-login.html';
+                            break;
+                    }
+                });
+            });
+
+            // Tab functionality
+            function switchToActiveTab() {
+                // Update tab states
+                activeTabBtn.classList.add('active');
+                historyTabBtn.classList.remove('active');
+                
+                // Update table headers
+                tableHeaders.innerHTML = `
+                    <th>Registration ID</th>
+                    <th>Restaurant Name</th>
+                    <th>Contact Info</th>
+                    <th>Submission Date</th>
+                    <th>Status</th>
+                    <th>Documents</th>
+                    <th>Action</th>
+                `;
+                
+                // Update table data
+                tableBody.innerHTML = `
+                    <tr>
+                        <td>345678</td>
+                        <td>Sarah's Burgers</td>
+                        <td>sarah@burgers.com</td>
+                        <td>06/08</td>
+                        <td><span class="admin-status-badge pending">Pending</span></td>
+                        <td><span class="admin-documents-icon">📁</span></td>
+                        <td>
+                            <button class="admin-action-btn">
+                                <span class="admin-dropdown-arrow">▼</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>456789</td>
+                        <td>Mike's Tacos</td>
+                        <td>mike@tacos.com</td>
+                        <td>06/07</td>
+                        <td><span class="admin-status-badge needs-info">Needs Info</span></td>
+                        <td><span class="admin-documents-icon">📁</span></td>
+                        <td>
+                            <button class="admin-action-btn">
+                                <span class="admin-dropdown-arrow">▼</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                
+                // Re-bind action button events
+                bindActionButtons();
+            }
+
+            function switchToHistoryTab() {
+                // Update tab states
+                historyTabBtn.classList.add('active');
+                activeTabBtn.classList.remove('active');
+                
+                // Update table headers
+                tableHeaders.innerHTML = `
+                    <th>Registration ID</th>
+                    <th>Restaurant Name</th>
+                    <th>Contact Info</th>
+                    <th>Submission Date</th>
+                    <th>Status</th>
+                    <th>Documents</th>
+                    <th>Decision Date</th>
+                `;
+                
+                // Update table data
+                tableBody.innerHTML = `
+                    <tr>
+                        <td>1111111</td>
+                        <td>Jim's Hotdogs</td>
+                        <td>J@gmail.com</td>
+                        <td>06/11</td>
+                        <td><span class="admin-status-badge approved">Approved</span></td>
+                        <td><span class="admin-documents-icon">📁</span></td>
+                        <td>06/19</td>
+                    </tr>
+                    <tr>
+                        <td>232323</td>
+                        <td>Tim's Pizza</td>
+                        <td>t@gmail.com</td>
+                        <td>06/09</td>
+                        <td><span class="admin-status-badge rejected">Rejected</span></td>
+                        <td><span class="admin-documents-icon">📁</span></td>
+                        <td>06/25</td>
+                    </tr>
+                `;
+            }
+
+            // Tab event listeners
+            activeTabBtn.addEventListener('click', switchToActiveTab);
+            historyTabBtn.addEventListener('click', switchToHistoryTab);
+
+            // Search functionality
+            if (adminSearchInput) {
+                adminSearchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const tableRows = document.querySelectorAll('.admin-table tbody tr');
+                    
+                    tableRows.forEach(row => {
+                        const restaurantName = row.cells[1].textContent.toLowerCase();
+                        const contactInfo = row.cells[2].textContent.toLowerCase();
+                        const registrationId = row.cells[0].textContent.toLowerCase();
+                        
+                        if (restaurantName.includes(searchTerm) || 
+                            contactInfo.includes(searchTerm) || 
+                            registrationId.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Action button functionality
+            function bindActionButtons() {
+                const adminActionBtns = document.querySelectorAll('.admin-action-btn');
+                adminActionBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const row = this.closest('tr');
+                        const registrationId = row.cells[0].textContent;
+                        const restaurantName = row.cells[1].textContent;
+                        const status = row.cells[4].querySelector('.admin-status-badge').textContent;
+                        
+                        // Create action menu
+                        const actionMenu = document.createElement('div');
+                        actionMenu.className = 'admin-action-menu';
+                        actionMenu.innerHTML = `
+                            <div class="admin-action-menu-item" data-action="view">View Details</div>
+                            <div class="admin-action-menu-item" data-action="approve">Approve</div>
+                            <div class="admin-action-menu-item" data-action="reject">Reject</div>
+                            <div class="admin-action-menu-item" data-action="request-info">Request More Info</div>
+                        `;
+                        
+                        // Position menu
+                        const rect = this.getBoundingClientRect();
+                        actionMenu.style.position = 'absolute';
+                        actionMenu.style.top = (rect.bottom + 5) + 'px';
+                        actionMenu.style.left = rect.left + 'px';
+                        actionMenu.style.zIndex = '1000';
+                        
+                        // Add to page
+                        document.body.appendChild(actionMenu);
+                        
+                        // Handle menu item clicks
+                        actionMenu.addEventListener('click', function(e) {
+                            const action = e.target.dataset.action;
+                            if (action) {
+                                handleAction(action, registrationId, restaurantName, status);
+                                document.body.removeChild(actionMenu);
+                            }
+                        });
+                        
+                        // Close menu when clicking outside
+                        setTimeout(() => {
+                            document.addEventListener('click', function closeMenu(e) {
+                                if (!actionMenu.contains(e.target) && !btn.contains(e.target)) {
+                                    document.body.removeChild(actionMenu);
+                                    document.removeEventListener('click', closeMenu);
+                                }
+                            });
+                        }, 0);
+                    });
+                });
+            }
+
+            function handleAction(action, registrationId, restaurantName, status) {
+                switch(action) {
+                    case 'view':
+                        alert(`Viewing details for ${restaurantName} (ID: ${registrationId})`);
+                        break;
+                    case 'approve':
+                        if (confirm(`Approve registration for ${restaurantName}?`)) {
+                            alert(`Registration for ${restaurantName} has been approved!`);
+                            // Update status in table
+                            updateStatus(registrationId, 'Approved');
+                        }
+                        break;
+                    case 'reject':
+                        if (confirm(`Reject registration for ${restaurantName}?`)) {
+                            alert(`Registration for ${restaurantName} has been rejected.`);
+                            // Update status in table
+                            updateStatus(registrationId, 'Rejected');
+                        }
+                        break;
+                    case 'request-info':
+                        alert(`Requesting more information from ${restaurantName}`);
+                        // Update status in table
+                        updateStatus(registrationId, 'Needs Info');
+                        break;
+                }
+            }
+
+            function updateStatus(registrationId, newStatus) {
+                const tableRows = document.querySelectorAll('.admin-table tbody tr');
+                tableRows.forEach(row => {
+                    if (row.cells[0].textContent === registrationId) {
+                        const statusBadge = row.cells[4].querySelector('.admin-status-badge');
+                        statusBadge.textContent = newStatus;
+                        statusBadge.className = `admin-status-badge ${newStatus.toLowerCase().replace(' ', '-')}`;
+                    }
+                });
+            }
+
+            // Initialize with History tab active (default state)
+            // The page loads with History tab active and History data displayed
+        });
+    </script>
+</body>
+</html>

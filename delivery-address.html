@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Delivery Address</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='delivery-address';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <a class="icon-btn" href="checkout.html">← Back to Store</a>
+            <div class="brand">FrontDash</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 10881 Sedalia Dr, McKinney, TX 75070 United States</a>
+                <a class="icon-btn notification-bell" href="#" title="notifications">🔔<span class="notification-count" style="display: none;">0</span></a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">1</span></a>
+            </div>
+        </header>
+
+        <main class="delivery-address-page">
+            <section class="delivery-main">
+                <div class="section-block">
+                    <div class="block-title">1. Account details</div>
+                </div>
+                <div class="section-block">
+                    <div class="block-title">2. Shipping details</div>
+                    <div class="address-section">
+                        <div class="current-address-display">
+                            <span class="address-text">10881 Sedalia DrMcKinney, TX 75070United States</span>
+                            <button class="edit-address-btn" id="editAddressBtn">✏️</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-block">
+                    <div class="block-title">3. Payment details</div>
+                    <div class="payment-list">
+                        <a class="payment-option" href="#" id="creditCard">Credit/Debit Card</a>
+                        <a class="payment-option" href="#">Paypal</a>
+                        <a class="payment-option" href="#">Venmo</a>
+                        <a class="payment-option" href="#">Cash App Pay</a>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="delivery-summary">
+                <div class="summary-card">
+                    <div class="summary-title">Your cart from <span id="summaryRestaurant">Whataburger</span></div>
+                    <div class="summary-items" id="summaryItems">
+                        <div class="summary-item">1 x Big Mac</div>
+                        <div class="summary-price">$5.99</div>
+                    </div>
+                    <div class="summary-row"><span>Subtotal</span><span id="subtotal">$13.83</span></div>
+                    <div class="summary-row"><span>Delivery Fee</span><span>$0.0</span></div>
+                    <div class="summary-row"><span>Fee & Estimated Tax</span><span id="fees">$20.27</span></div>
+                    <div class="summary-total"><span>Total</span><span id="total">$13.83</span></div>
+                    <a class="btn" href="payment.html" id="payBtn">Pay</a>
+                    
+                    <div class="address-row">
+                        <button class="address-btn" id="changeAddressBtn">📞 (469)212-2341</button>
+                        <button class="address-btn">🎁 Send as a gift</button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Change Address Modal -->
+    <div id="addressModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change address</h3>
+                <button class="close-btn" id="closeAddressModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="streetAddress">Street Address:</label>
+                    <input type="text" id="streetAddress" placeholder="123 Main Street" value="10881 Sedalia Dr" required>
+                </div>
+                <div class="form-group">
+                    <label for="apartmentUnit">Apartment/Unit (Optional):</label>
+                    <input type="text" id="apartmentUnit" placeholder="Apt 123, Unit 456, etc.">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" id="city" placeholder="City" value="McKinney" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <input type="text" id="state" placeholder="State" value="TX" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zipCode">ZIP Code:</label>
+                        <input type="text" id="zipCode" placeholder="12345" value="75070" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" placeholder="Country" value="United States" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="confirmAddress">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    
+    <script>
+        // Handle address edit functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const editAddressBtn = document.getElementById('editAddressBtn');
+            const addressModal = document.getElementById('addressModal');
+            const closeAddressModal = document.getElementById('closeAddressModal');
+            const confirmAddress = document.getElementById('confirmAddress');
+            const addressInput = document.getElementById('addressInput');
+            const addressText = document.querySelector('.address-text');
+            const addressPill = document.getElementById('addressPill');
+            
+            // Open modal when edit button is clicked
+            if (editAddressBtn) {
+                editAddressBtn.addEventListener('click', function() {
+                    if (addressModal) {
+                        addressModal.style.display = 'flex';
+                    }
+                });
+            }
+            
+            // Close modal when X is clicked
+            if (closeAddressModal) {
+                closeAddressModal.addEventListener('click', function() {
+                    if (addressModal) {
+                        addressModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Close modal when clicking outside
+            if (addressModal) {
+                addressModal.addEventListener('click', function(e) {
+                    if (e.target === addressModal) {
+                        addressModal.style.display = 'none';
+                    }
+                });
+            }
+            
+                // Confirm address change
+                if (confirmAddress) {
+                    confirmAddress.addEventListener('click', function() {
+                        const streetAddress = document.getElementById('streetAddress').value.trim();
+                        const apartmentUnit = document.getElementById('apartmentUnit').value.trim();
+                        const city = document.getElementById('city').value.trim();
+                        const state = document.getElementById('state').value.trim();
+                        const zipCode = document.getElementById('zipCode').value.trim();
+                        const country = document.getElementById('country').value.trim();
+
+                        // Validate required fields
+                        if (!streetAddress || !city || !state || !zipCode || !country) {
+                            alert('Please fill in all required fields (Street Address, City, State, ZIP Code, Country).');
+                            return;
+                        }
+
+                        // Validate ZIP code format (5 digits or 5+4 format)
+                        if (!/^\d{5}(-\d{4})?$/.test(zipCode)) {
+                            alert('Please enter a valid ZIP code (e.g., 12345 or 12345-6789).');
+                            return;
+                        }
+
+                        // Validate state format (2 letters)
+                        if (!/^[A-Z]{2}$/.test(state.toUpperCase())) {
+                            alert('Please enter a valid state abbreviation (e.g., TX, CA, NY).');
+                            return;
+                        }
+
+                        // Build formatted address
+                        let formattedAddress = streetAddress;
+                        if (apartmentUnit) {
+                            formattedAddress += `, ${apartmentUnit}`;
+                        }
+                        formattedAddress += `, ${city}, ${state.toUpperCase()} ${zipCode}, ${country}`;
+
+                        // Update address display
+                        if (addressText) {
+                            addressText.textContent = formattedAddress;
+                        }
+                        if (addressPill) {
+                            addressPill.textContent = `🏠 ${formattedAddress}`;
+                        }
+                        
+                        // Close modal
+                        if (addressModal) {
+                            addressModal.style.display = 'none';
+                        }
+                        
+                        // Show success message
+                        alert('Address updated successfully!');
+                    });
+                }
+        });
+    </script>
+
+</body>
+</html>

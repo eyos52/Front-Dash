@@ -14,7 +14,11 @@
         <header class="fd-header">
             <a class="icon-btn" href="home.html">←</a>
             <div class="brand">FRONTDASH</div>
-            <div class="header-actions"></div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 10881 Sedalia Dr, McKinney, TX 75070 United States</a>
+                <a class="icon-btn notification-bell" href="#" title="notifications">🔔<span class="notification-count" style="display: none;">0</span></a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">1</span></a>
+            </div>
         </header>
 
         <main class="confirmation-page">
@@ -22,17 +26,44 @@
                 <div class="block-title">1. Account Details <span class="pill small" id="confirmEmail">dakp@gmail.com</span></div>
                 <div class="status-panel">
                     <div class="status-title">Confirming your order</div>
-                    <div id="confirmAddressText">Deliver Address<br>6815 Orchid Ln Dallas, TX 75230 United States</div>
+                    
+                    <!-- Order Information -->
+                    <div class="order-info">
+                        <div class="order-detail">
+                            <span class="order-label">Order Number:</span>
+                            <span class="order-value" id="orderNumber">#FD-2024-001234</span>
+                        </div>
+                        <div class="order-detail">
+                            <span class="order-label">Order Date & Time:</span>
+                            <span class="order-value" id="orderDateTime">December 15, 2024 at 2:30 PM</span>
+                        </div>
+                        <div class="order-detail">
+                            <span class="order-label">Estimated Delivery:</span>
+                            <span class="order-value" id="estimatedDelivery">3:00 PM - 3:15 PM</span>
+                        </div>
+                    </div>
+                    
+                    <div id="confirmAddressText">Delivery Address<br>6815 Orchid LnDallas, TX 75230United States</div>
                     <div class="progress">
-                        <div class="dot"></div>
-                        <div class="bar"></div>
-                        <div class="dot"></div>
-                        <div class="bar"></div>
-                        <div class="dot"></div>
-                        <div class="bar"></div>
-                        <div class="dot"></div>
-                        <div class="bar"></div>
-                        <div class="dot"></div>
+                        <div class="progress-step active">
+                            <div class="step-icon">📄</div>
+                            <div class="step-label">Order</div>
+                        </div>
+                        <div class="progress-line active"></div>
+                        <div class="progress-step active">
+                            <div class="step-icon">🏪</div>
+                            <div class="step-label">Restaurant</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <div class="step-icon">🚗</div>
+                            <div class="step-label">Delivery</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <div class="step-icon">🏠</div>
+                            <div class="step-label">Arrived</div>
+                        </div>
                     </div>
                     <div class="status-sub">We sent your order to Whataburger for final confirmation</div>
                     <a class="btn" href="checkout.html">Show Order Details</a>
@@ -40,6 +71,52 @@
             </div>
         </main>
     </div>
+
+    <script>
+        // Generate dynamic order information
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate order number
+            const orderNumber = document.getElementById('orderNumber');
+            if (orderNumber) {
+                const timestamp = Date.now();
+                const orderId = 'FD-' + new Date().getFullYear() + '-' + String(timestamp).slice(-6);
+                orderNumber.textContent = '#' + orderId;
+            }
+
+            // Generate current date and time
+            const orderDateTime = document.getElementById('orderDateTime');
+            if (orderDateTime) {
+                const now = new Date();
+                const options = { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                };
+                orderDateTime.textContent = now.toLocaleDateString('en-US', options);
+            }
+
+            // Generate estimated delivery time (30-45 minutes from now)
+            const estimatedDelivery = document.getElementById('estimatedDelivery');
+            if (estimatedDelivery) {
+                const now = new Date();
+                const deliveryTime1 = new Date(now.getTime() + 30 * 60000); // 30 minutes
+                const deliveryTime2 = new Date(now.getTime() + 45 * 60000); // 45 minutes
+                
+                const timeOptions = { 
+                    hour: 'numeric', 
+                    minute: '2-digit',
+                    hour12: true
+                };
+                
+                const time1 = deliveryTime1.toLocaleTimeString('en-US', timeOptions);
+                const time2 = deliveryTime2.toLocaleTimeString('en-US', timeOptions);
+                estimatedDelivery.textContent = time1 + ' - ' + time2;
+            }
+        });
+    </script>
 
 </body>
 </html>

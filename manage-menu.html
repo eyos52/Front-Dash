@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Manage Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='manage-menu';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="dashboard-container">
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-brand">FrontDash</h1>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <a href="restaurant-dashboard.html" class="nav-item">Orders</a>
+                    <a href="manage-menu.html" class="nav-item active">Manage menu</a>
+                    <a href="hours-of-operation.html" class="nav-item">Hours of Operation</a>
+                    <a href="contact-information.html" class="nav-item">Contact Information</a>
+                    <a href="change-password.html" class="nav-item">Change Password</a>
+                    <a href="withdraw-from-frontdash.html" class="nav-item">Withdraw from FrontDash</a>
+                    <a href="restaurant-login.html" class="nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="dashboard-main">
+                <div class="dashboard-header">
+                    <h2 class="page-title">Menu</h2>
+                    <p class="page-subtitle">Add/Edit/Delete items</p>
+                </div>
+                
+                <div class="menu-controls">
+                    <div class="search-section">
+                        <div class="search-bar">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Search for an item" class="search-input">
+                        </div>
+                    </div>
+                    
+                    <button class="add-item-btn">Add Item</button>
+                </div>
+                
+                <div class="menu-categories">
+                    <div class="category-section">
+                        <div class="category-header">
+                            <h3 class="category-title">Apetizers</h3>
+                            <span class="item-count">4 items</span>
+                        </div>
+                        
+                        <div class="menu-items-list">
+                            <div class="menu-item" data-item-name="sliders" data-item-price="$2.50" data-item-availability="Available">
+                                <div class="item-info">
+                                    <span class="item-icon">🍔</span>
+                                    <span class="item-name">Sliders</span>
+                                    <span class="item-price">$2.50</span>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="action-btn edit-btn">✏️</button>
+                                    <button class="action-btn delete-btn">🗑️</button>
+                                </div>
+                            </div>
+                            
+                            <div class="menu-item" data-item-name="pizza" data-item-price="$2.50" data-item-availability="Available">
+                                <div class="item-info">
+                                    <span class="item-icon">🍕</span>
+                                    <span class="item-name">Pizza</span>
+                                    <span class="item-price">$2.50</span>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="action-btn edit-btn">✏️</button>
+                                    <button class="action-btn delete-btn">🗑️</button>
+                                </div>
+                            </div>
+                            
+                            <div class="menu-item" data-item-name="apple" data-item-price="$2.50" data-item-availability="Available">
+                                <div class="item-info">
+                                    <span class="item-icon">🍎</span>
+                                    <span class="item-name">Apple</span>
+                                    <span class="item-price">$2.50</span>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="action-btn edit-btn">✏️</button>
+                                    <button class="action-btn delete-btn">🗑️</button>
+                                </div>
+                            </div>
+                            
+                            <div class="menu-item" data-item-name="candy cane" data-item-price="$2.50" data-item-availability="Available">
+                                <div class="item-info">
+                                    <span class="item-icon">🍭</span>
+                                    <span class="item-name">candy cane</span>
+                                    <span class="item-price">$2.50</span>
+                                    <span class="item-status available">Available</span>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="action-btn edit-btn">✏️</button>
+                                    <button class="action-btn delete-btn">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Item Detail Tooltip -->
+    <div id="itemTooltip" class="item-tooltip" style="display: none;">
+        <div class="tooltip-content">
+            <p><strong>Name:</strong> <span id="tooltipName"></span></p>
+            <p><strong>Price:</strong> <span id="tooltipPrice"></span></p>
+            <p><strong>Availability:</strong> <span id="tooltipAvailability"></span></p>
+        </div>
+    </div>
+
+    <!-- Edit Item Dialog -->
+    <div id="editDialog" class="edit-dialog" style="display: none;">
+        <div class="edit-dialog-content">
+            <div class="edit-dialog-header">
+                <h3>Edit Menu Item</h3>
+                <button class="close-edit-btn">&times;</button>
+            </div>
+            <div class="edit-dialog-body">
+                <div class="form-group">
+                    <label for="editItemName">Name:</label>
+                    <input type="text" id="editItemName" placeholder="Item name">
+                </div>
+                <div class="form-group">
+                    <label for="editItemPrice">Price:</label>
+                    <input type="text" id="editItemPrice" placeholder="$0.00">
+                </div>
+                <div class="form-group">
+                    <label for="editItemAvailability">Availability:</label>
+                    <select id="editItemAvailability">
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                </div>
+            </div>
+            <div class="edit-dialog-footer">
+                <button class="edit-cancel-btn">Cancel</button>
+                <button class="edit-save-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Dialog -->
+    <div id="addItemDialog" class="add-item-dialog" style="display: none;">
+        <div class="add-item-dialog-content">
+            <div class="add-item-dialog-header">
+                <h3>Add New Menu Item</h3>
+                <button class="close-add-item-btn">&times;</button>
+            </div>
+            <div class="add-item-dialog-body">
+                <div class="form-group">
+                    <label for="addItemName">Enter Item Name:</label>
+                    <input type="text" id="addItemName" placeholder="Item name" required>
+                </div>
+                <div class="form-group">
+                    <label for="addItemPrice">Enter Item Price:</label>
+                    <input type="text" id="addItemPrice" placeholder="$0.00" required>
+                </div>
+                <div class="form-group">
+                    <label for="addItemPhoto">Import Item Photo (optional):</label>
+                    <input type="file" id="addItemPhoto" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="addItemDescription">Enter Item Description (optional):</label>
+                    <textarea id="addItemDescription" placeholder="Item description" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="add-item-dialog-footer">
+                <button class="add-item-cancel-btn">Cancel</button>
+                <button class="add-item-save-btn">Add Item</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Dialog -->
+    <div id="deleteDialog" class="delete-dialog" style="display: none;">
+        <div class="delete-dialog-content">
+            <p class="delete-question">Are you sure you want to delete this item?</p>
+            <div class="delete-dialog-buttons">
+                <button class="delete-confirm-btn">Yes</button>
+                <button class="delete-cancel-btn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Manage Menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            const editButtons = document.querySelectorAll('.edit-btn');
+            const addItemBtn = document.querySelector('.add-item-btn');
+            const deleteDialog = document.getElementById('deleteDialog');
+            const editDialog = document.getElementById('editDialog');
+            const addItemDialog = document.getElementById('addItemDialog');
+            const confirmBtn = document.querySelector('.delete-confirm-btn');
+            const cancelBtn = document.querySelector('.delete-cancel-btn');
+            const menuItems = document.querySelectorAll('.menu-item');
+            const itemTooltip = document.getElementById('itemTooltip');
+            const navItems = document.querySelectorAll('.nav-item');
+            let itemToDelete = null;
+            let itemToEdit = null;
+
+            // Navigation functionality
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Navigate to the page
+                    if (href && href !== '#') {
+                        window.location.href = href;
+                    }
+                });
+            });
+
+            // Tooltip functionality - show on click
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Don't show tooltip if clicking on action buttons
+                    if (e.target.classList.contains('action-btn')) {
+                        return;
+                    }
+                    
+                    const name = this.dataset.itemName;
+                    const price = this.dataset.itemPrice;
+                    const availability = this.dataset.itemAvailability;
+                    
+                    document.getElementById('tooltipName').textContent = name;
+                    document.getElementById('tooltipPrice').textContent = price;
+                    document.getElementById('tooltipAvailability').textContent = availability;
+                    
+                    // Position tooltip relative to the clicked item
+                    const rect = this.getBoundingClientRect();
+                    itemTooltip.style.left = (rect.right + 10) + 'px';
+                    itemTooltip.style.top = (rect.top + window.scrollY) + 'px';
+                    itemTooltip.style.display = 'block';
+                });
+            });
+
+            // Hide tooltip when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.menu-item') && !e.target.closest('.item-tooltip')) {
+                    itemTooltip.style.display = 'none';
+                }
+            });
+
+            // Edit button functionality
+            editButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    itemToEdit = this.closest('.menu-item');
+                    
+                    // Populate edit form with current values
+                    const name = itemToEdit.dataset.itemName;
+                    const price = itemToEdit.dataset.itemPrice;
+                    const availability = itemToEdit.dataset.itemAvailability;
+                    
+                    document.getElementById('editItemName').value = name;
+                    document.getElementById('editItemPrice').value = price;
+                    document.getElementById('editItemAvailability').value = availability;
+                    
+                    editDialog.style.display = 'flex';
+                });
+            });
+
+            // Edit dialog functionality
+            const closeEditBtn = document.querySelector('.close-edit-btn');
+            const editCancelBtn = document.querySelector('.edit-cancel-btn');
+            const editSaveBtn = document.querySelector('.edit-save-btn');
+
+            function closeEditDialog() {
+                editDialog.style.display = 'none';
+                itemToEdit = null;
+            }
+
+            if (closeEditBtn) {
+                closeEditBtn.addEventListener('click', closeEditDialog);
+            }
+
+            if (editCancelBtn) {
+                editCancelBtn.addEventListener('click', closeEditDialog);
+            }
+
+            if (editSaveBtn) {
+                editSaveBtn.addEventListener('click', function() {
+                    if (itemToEdit) {
+                        const newName = document.getElementById('editItemName').value;
+                        const newPrice = document.getElementById('editItemPrice').value;
+                        const newAvailability = document.getElementById('editItemAvailability').value;
+                        
+                        // Update the item display
+                        const nameElement = itemToEdit.querySelector('.item-name');
+                        const priceElement = itemToEdit.querySelector('.item-price');
+                        const statusElement = itemToEdit.querySelector('.item-status');
+                        
+                        if (nameElement) nameElement.textContent = newName;
+                        if (priceElement) priceElement.textContent = newPrice;
+                        
+                        // Update or create status element
+                        if (statusElement) {
+                            statusElement.textContent = newAvailability;
+                            statusElement.className = `item-status ${newAvailability.toLowerCase()}`;
+                        } else if (newAvailability === 'Available') {
+                            // Add status element if it doesn't exist
+                            const itemInfo = itemToEdit.querySelector('.item-info');
+                            const statusSpan = document.createElement('span');
+                            statusSpan.className = 'item-status available';
+                            statusSpan.textContent = 'Available';
+                            itemInfo.appendChild(statusSpan);
+                        }
+                        
+                        // Update data attributes
+                        itemToEdit.dataset.itemName = newName;
+                        itemToEdit.dataset.itemPrice = newPrice;
+                        itemToEdit.dataset.itemAvailability = newAvailability;
+                    }
+                    closeEditDialog();
+                });
+            }
+
+            // Close edit dialog when clicking outside
+            if (editDialog) {
+                editDialog.addEventListener('click', function(e) {
+                    if (e.target === editDialog) {
+                        closeEditDialog();
+                    }
+                });
+            }
+
+            // Delete confirmation dialog functionality
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    itemToDelete = this.closest('.menu-item');
+                    deleteDialog.style.display = 'flex';
+                });
+            });
+
+            // Confirm deletion
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function() {
+                    if (itemToDelete) {
+                        itemToDelete.remove();
+                        // Update item count
+                        const itemCount = document.querySelector('.item-count');
+                        const currentCount = parseInt(itemCount.textContent);
+                        itemCount.textContent = `${currentCount - 1} items`;
+                    }
+                    deleteDialog.style.display = 'none';
+                    itemToDelete = null;
+                });
+            }
+
+            // Cancel deletion
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    deleteDialog.style.display = 'none';
+                    itemToDelete = null;
+                });
+            }
+
+            // Close dialog when clicking outside
+            if (deleteDialog) {
+                deleteDialog.addEventListener('click', function(e) {
+                    if (e.target === deleteDialog) {
+                        deleteDialog.style.display = 'none';
+                        itemToDelete = null;
+                    }
+                });
+            }
+
+            // Add Item functionality
+            if (addItemBtn) {
+                addItemBtn.addEventListener('click', function() {
+                    addItemDialog.style.display = 'flex';
+                });
+            }
+
+            // Add Item dialog functionality
+            const closeAddItemBtn = document.querySelector('.close-add-item-btn');
+            const addItemCancelBtn = document.querySelector('.add-item-cancel-btn');
+            const addItemSaveBtn = document.querySelector('.add-item-save-btn');
+
+            function closeAddItemDialog() {
+                addItemDialog.style.display = 'none';
+                // Reset form
+                document.getElementById('addItemName').value = '';
+                document.getElementById('addItemPrice').value = '';
+                document.getElementById('addItemPhoto').value = '';
+                document.getElementById('addItemDescription').value = '';
+            }
+
+            if (closeAddItemBtn) {
+                closeAddItemBtn.addEventListener('click', closeAddItemDialog);
+            }
+
+            if (addItemCancelBtn) {
+                addItemCancelBtn.addEventListener('click', closeAddItemDialog);
+            }
+
+            if (addItemSaveBtn) {
+                addItemSaveBtn.addEventListener('click', function() {
+                    const itemName = document.getElementById('addItemName').value.trim();
+                    const itemPrice = document.getElementById('addItemPrice').value.trim();
+                    const itemPhoto = document.getElementById('addItemPhoto').files[0];
+                    const itemDescription = document.getElementById('addItemDescription').value.trim();
+
+                    // Validate required fields
+                    if (!itemName || !itemPrice) {
+                        alert('Please fill in the required fields (Item Name and Item Price).');
+                        return;
+                    }
+
+                    // Create new menu item
+                    const menuItemsList = document.querySelector('.menu-items-list');
+                    const newMenuItem = document.createElement('div');
+                    newMenuItem.className = 'menu-item';
+                    newMenuItem.setAttribute('data-item-name', itemName);
+                    newMenuItem.setAttribute('data-item-price', itemPrice);
+                    newMenuItem.setAttribute('data-item-availability', 'Available');
+
+                    // Generate a random emoji for the item icon
+                    const emojis = ['🍔', '🍕', '🍎', '🍭', '🥗', '🍟', '🌮', '🍜', '🥪', '🍰'];
+                    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+                    newMenuItem.innerHTML = `
+                        <div class="item-info">
+                            <span class="item-icon">${randomEmoji}</span>
+                            <span class="item-name">${itemName}</span>
+                            <span class="item-price">${itemPrice}</span>
+                            <span class="item-status available">Available</span>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn edit-btn">✏️</button>
+                            <button class="action-btn delete-btn">🗑️</button>
+                        </div>
+                    `;
+
+                    // Add the new item to the menu
+                    menuItemsList.appendChild(newMenuItem);
+
+                    // Update item count
+                    const itemCount = document.querySelector('.item-count');
+                    const currentCount = parseInt(itemCount.textContent);
+                    itemCount.textContent = `${currentCount + 1} items`;
+
+                    // Re-bind event listeners for the new item
+                    bindEventListenersToNewItem(newMenuItem);
+
+                    // Close dialog and show success message
+                    closeAddItemDialog();
+                    alert(`Item "${itemName}" has been added successfully!`);
+                });
+            }
+
+            // Close add item dialog when clicking outside
+            if (addItemDialog) {
+                addItemDialog.addEventListener('click', function(e) {
+                    if (e.target === addItemDialog) {
+                        closeAddItemDialog();
+                    }
+                });
+            }
+
+            // Function to bind event listeners to newly added items
+            function bindEventListenersToNewItem(newItem) {
+                // Edit button
+                const editBtn = newItem.querySelector('.edit-btn');
+                if (editBtn) {
+                    editBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        itemToEdit = this.closest('.menu-item');
+                        
+                        // Populate edit form with current values
+                        const name = itemToEdit.dataset.itemName;
+                        const price = itemToEdit.dataset.itemPrice;
+                        const availability = itemToEdit.dataset.itemAvailability;
+                        
+                        document.getElementById('editItemName').value = name;
+                        document.getElementById('editItemPrice').value = price;
+                        document.getElementById('editItemAvailability').value = availability;
+                        
+                        editDialog.style.display = 'flex';
+                    });
+                }
+
+                // Delete button
+                const deleteBtn = newItem.querySelector('.delete-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        itemToDelete = this.closest('.menu-item');
+                        deleteDialog.style.display = 'flex';
+                    });
+                }
+
+                // Tooltip functionality
+                newItem.addEventListener('click', function(e) {
+                    // Don't show tooltip if clicking on action buttons
+                    if (e.target.classList.contains('action-btn')) {
+                        return;
+                    }
+                    
+                    const name = this.dataset.itemName;
+                    const price = this.dataset.itemPrice;
+                    const availability = this.dataset.itemAvailability;
+                    
+                    document.getElementById('tooltipName').textContent = name;
+                    document.getElementById('tooltipPrice').textContent = price;
+                    document.getElementById('tooltipAvailability').textContent = availability;
+                    
+                    // Position tooltip relative to the clicked item
+                    const rect = this.getBoundingClientRect();
+                    itemTooltip.style.left = (rect.right + 10) + 'px';
+                    itemTooltip.style.top = (rect.top + window.scrollY) + 'px';
+                    itemTooltip.style.display = 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

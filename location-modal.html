@@ -1,0 +1,27 @@
+<!-- Location Change Modal -->
+<div id="locationModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Change Delivery Address</h3>
+            <button class="close-btn" id="closeModal">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="current-address">
+                <label>Current Address:</label>
+                <p id="currentAddressDisplay">10881 Sedalia Dr, McKinney, TX 75070 United States</p>
+            </div>
+            
+            <div class="new-address">
+                <label for="newAddress">New Address:</label>
+                <input type="text" id="newAddress" placeholder="Enter your new address">
+                <small class="help-text">Enter your full address including city, state, and zip code</small>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelBtn">Cancel</button>
+            <button class="btn-primary" id="saveAddressBtn">Save Address</button>
+        </div>
+    </div>
+</div>

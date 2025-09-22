@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Restaurant Registration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='restaurant-registration';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <div class="brand">FastDash</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 10881 Sedalia Dr, McKinney, TX 75070 United States</a>
+                <a class="icon-btn notification-bell" href="#" title="notifications">🔔<span class="notification-count" style="display: none;">0</span></a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">1</span></a>
+            </div>
+        </header>
+
+        <main class="registration-page">
+            <div class="registration-container">
+                <div class="registration-hero">
+                    <div class="hero-image">
+                        <div class="image-placeholder">
+                            <div class="placeholder-icon">🏔️</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="registration-form">
+                    <div class="form-header">
+                        <h1>Get Started</h1>
+                        <div class="login-section">
+                            <a href="#" class="login-link">Already have an account?</a>
+                            <a href="#" class="login-btn">🔑 Log in</a>
+                        </div>
+                    </div>
+                    
+                    <form class="registration-form-content" id="registrationForm">
+                        <div class="form-row">
+                            <input type="text" id="firstName" placeholder="Enter first name..." required>
+                            <input type="text" id="lastName" placeholder="Enter last name..." required>
+                        </div>
+                        
+                        <input type="email" id="email" placeholder="Enter email..." required>
+                        <input type="tel" id="phone" placeholder="Enter phone number..." required>
+                        <input type="text" id="storeAddress" placeholder="Enter store address..." required>
+                        <input type="text" id="restaurantName" placeholder="Enter Restaurant Name..." required>
+                        <input type="text" id="hours" placeholder="Enter hours of operation..." required>
+                        
+                        <div class="file-uploads">
+                            <button type="button" class="upload-btn" id="uploadMenu">Upload Menu</button>
+                            <button type="button" class="upload-btn" id="uploadLogo">Upload logo (optional)</button>
+                        </div>
+                        
+                        
+                        <button type="submit" class="submit-btn">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

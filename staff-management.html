@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Staff Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='staff-management';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header admin-header">
+            <div class="brand">FrontDash</div>
+        </header>
+        
+        <div class="admin-dashboard-container">
+            <aside class="admin-sidebar">
+                <nav class="admin-sidebar-nav">
+                    <a href="registration-queue.html" class="admin-nav-item">Registration Queue</a>
+                    <a href="withdrawl-queue.html" class="admin-nav-item">Withdrawl Queue</a>
+                    <a href="#" class="admin-nav-item active">Staff Management</a>
+                    <a href="#" class="admin-nav-item">Driver Management</a>
+                    <a href="#" class="admin-nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="admin-main">
+                <div class="admin-header">
+                    <h1 class="admin-page-title">Staff Management</h1>
+                </div>
+                
+                <div class="admin-controls">
+                    <div class="admin-search-section">
+                        <div class="admin-search-bar">
+                            <span class="admin-search-icon">🔍</span>
+                            <input type="text" placeholder="Search staff" class="admin-search-input">
+                        </div>
+                    </div>
+                    
+                    <div class="admin-action-section">
+                        <button class="admin-add-btn" id="addStaffBtn">
+                            <span class="admin-add-icon">+</span>
+                            Add staff
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="staffTable">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Start Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody">
+                            <tr>
+                                <td>Colby</td>
+                                <td>Papadakis</td>
+                                <td>J@gmail.com</td>
+                                <td>06/11</td>
+                                <td>
+                                    <button class="admin-delete-btn" data-staff-id="1">
+                                        <span class="admin-delete-icon">🗑️</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jonathar</td>
+                                <td>Fyne</td>
+                                <td>t@gmail.com</td>
+                                <td>06/09</td>
+                                <td>
+                                    <button class="admin-delete-btn" data-staff-id="2">
+                                        <span class="admin-delete-icon">🗑️</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sarah</td>
+                                <td>Johnson</td>
+                                <td>sarah@frontdash.com</td>
+                                <td>05/15</td>
+                                <td>
+                                    <button class="admin-delete-btn" data-staff-id="3">
+                                        <span class="admin-delete-icon">🗑️</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Michael</td>
+                                <td>Chen</td>
+                                <td>michael@frontdash.com</td>
+                                <td>05/20</td>
+                                <td>
+                                    <button class="admin-delete-btn" data-staff-id="4">
+                                        <span class="admin-delete-icon">🗑️</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div id="addStaffModal" class="admin-modal-overlay" style="display: none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Add New Staff Member</h3>
+                <button class="admin-close-btn" id="closeAddStaffModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <form class="admin-staff-form" id="addStaffForm">
+                    <div class="admin-form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="admin-form-input" required>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="admin-form-input" required>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="username">Username (Email)</label>
+                        <input type="email" id="username" class="admin-form-input" required>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate" class="admin-form-input" required>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="autoPassword">Auto Password</label>
+                        <input type="password" id="autoPassword" class="admin-form-input" placeholder="Leave blank for auto-generated" maxlength="6">
+                        <small class="admin-form-help">Leave blank to auto-generate a 6-character password</small>
+                    </div>
+                </form>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="admin-btn-secondary" id="cancelAddStaff">Cancel</button>
+                <button class="admin-btn-primary" id="saveStaff">Add Staff</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Admin Staff Management functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminNavItems = document.querySelectorAll('.admin-nav-item');
+            const adminSearchInput = document.querySelector('.admin-search-input');
+            const addStaffBtn = document.getElementById('addStaffBtn');
+            const addStaffModal = document.getElementById('addStaffModal');
+            const closeAddStaffModal = document.getElementById('closeAddStaffModal');
+            const cancelAddStaff = document.getElementById('cancelAddStaff');
+            const saveStaff = document.getElementById('saveStaff');
+            const addStaffForm = document.getElementById('addStaffForm');
+            const staffTableBody = document.getElementById('staffTableBody');
+            const adminDeleteBtns = document.querySelectorAll('.admin-delete-btn');
+
+            // Navigation functionality
+            adminNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const text = this.textContent.trim();
+                    
+                    // Remove active class from all items
+                    adminNavItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    switch(text) {
+                        case 'Registration Queue':
+                            window.location.href = 'registration-queue.html';
+                            break;
+                        case 'Withdrawl Queue':
+                            window.location.href = 'withdrawl-queue.html';
+                            break;
+                        case 'Staff Management':
+                            // Stay on current page
+                            break;
+                        case 'Driver Management':
+                            alert('Driver Management page coming soon!');
+                            break;
+                        case 'Logout':
+                            window.location.href = 'admin-login.html';
+                            break;
+                    }
+                });
+            });
+
+            // Search functionality
+            if (adminSearchInput) {
+                adminSearchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const tableRows = document.querySelectorAll('#staffTable tbody tr');
+                    
+                    tableRows.forEach(row => {
+                        const firstName = row.cells[0].textContent.toLowerCase();
+                        const lastName = row.cells[1].textContent.toLowerCase();
+                        const username = row.cells[2].textContent.toLowerCase();
+                        
+                        if (firstName.includes(searchTerm) || 
+                            lastName.includes(searchTerm) || 
+                            username.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Add Staff Modal functionality
+            function openAddStaffModal() {
+                addStaffModal.style.display = 'flex';
+                // Set today's date as default
+                document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
+            }
+
+            function closeAddStaffModalFunc() {
+                addStaffModal.style.display = 'none';
+                addStaffForm.reset();
+            }
+
+            // Event listeners for modal
+            if (addStaffBtn) {
+                addStaffBtn.addEventListener('click', openAddStaffModal);
+            }
+
+            if (closeAddStaffModal) {
+                closeAddStaffModal.addEventListener('click', closeAddStaffModalFunc);
+            }
+
+            if (cancelAddStaff) {
+                cancelAddStaff.addEventListener('click', closeAddStaffModalFunc);
+            }
+
+            // Close modal when clicking outside
+            if (addStaffModal) {
+                addStaffModal.addEventListener('click', function(e) {
+                    if (e.target === addStaffModal) {
+                        closeAddStaffModalFunc();
+                    }
+                });
+            }
+
+            // Save staff functionality
+            if (saveStaff) {
+                saveStaff.addEventListener('click', function() {
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const username = document.getElementById('username').value.trim();
+                    const startDate = document.getElementById('startDate').value;
+                    const autoPassword = document.getElementById('autoPassword').value;
+
+                    // Validation
+                    if (!firstName || !lastName || !username || !startDate) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    // Email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(username)) {
+                        alert('Please enter a valid email address for username');
+                        return;
+                    }
+
+                    // Generate password if not provided
+                    const password = autoPassword || generateRandomPassword();
+
+                    // Create new staff row
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${firstName}</td>
+                        <td>${lastName}</td>
+                        <td>${username}</td>
+                        <td>${formatDate(startDate)}</td>
+                        <td>
+                            <button class="admin-delete-btn" data-staff-id="${Date.now()}">
+                                <span class="admin-delete-icon">🗑️</span>
+                            </button>
+                        </td>
+                    `;
+
+                    // Add to table
+                    staffTableBody.appendChild(newRow);
+
+                    // Bind delete event to new row
+                    const newDeleteBtn = newRow.querySelector('.admin-delete-btn');
+                    newDeleteBtn.addEventListener('click', function() {
+                        deleteStaff(this);
+                    });
+
+                    // Close modal and show success
+                    closeAddStaffModalFunc();
+                    alert(`Staff member ${firstName} ${lastName} has been added successfully!\n\nUsername: ${username}\n\nPassword has been generated and will be sent to the staff member via secure email.`);
+                });
+            }
+
+            // Delete staff functionality
+            function deleteStaff(deleteBtn) {
+                const row = deleteBtn.closest('tr');
+                const firstName = row.cells[0].textContent;
+                const lastName = row.cells[1].textContent;
+                const username = row.cells[2].textContent;
+
+                if (confirm(`Are you sure you want to delete staff member ${firstName} ${lastName} (${username})?`)) {
+                    row.remove();
+                    alert(`Staff member ${firstName} ${lastName} has been deleted successfully.`);
+                }
+            }
+
+            // Bind delete events to existing buttons
+            adminDeleteBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    deleteStaff(this);
+                });
+            });
+
+            // Helper functions
+            function generateRandomPassword() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let password = '';
+                for (let i = 0; i < 6; i++) {
+                    password += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return password;
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${month}/${day}`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -62,12 +62,12 @@
   // Lightweight menu datasets (sampled and approximated; prices illustrative)
   const MENU_DATA = {
     "McDonald's": [
-      { id: 'mcbigmac', name: 'Big Mac', price: 5.99, desc: 'Two beef patties, special sauce' },
-      { id: 'mcquarter', name: 'Quarter Pounder w/ Cheese', price: 6.29 },
-      { id: 'mcchkn', name: 'McChicken', price: 2.49 },
-      { id: 'mcnug10', name: '10 pc Chicken McNuggets', price: 5.49 },
-      { id: 'mcfries', name: 'Large Fries', price: 3.29 },
-      { id: 'mcflurry', name: 'Oreo McFlurry', price: 3.99 }
+      { id: 'mcbigmac', name: 'Big Mac', price: 5.99, desc: 'Two beef patties, special sauce', image: 'assets/Bigmac.png' },
+      { id: 'mcquarter', name: 'Quarter Pounder w/ Cheese', price: 6.29, image: 'assets/Quarter Pounder w: Cheese.png' },
+      { id: 'mcchkn', name: 'McChicken', price: 2.49, image: 'assets/McChicken.png' },
+      { id: 'mcnug10', name: '10 pc Chicken McNuggets', price: 5.49, image: 'assets/10 pc Chicken McNuggets.png' },
+      { id: 'mcfries', name: 'Large Fries', price: 3.29, image: 'assets/Large Fries.png' },
+      { id: 'mcflurry', name: 'Oreo McFlurry', price: 3.99, image: 'assets/Oreo McFlurry.png' }
     ],
     'Chick-fil-A': [
       { id: 'cfa_chicken_sand', name: 'Chick-fil-A Chicken Sandwich', price: 4.99, desc: 'Hand-breaded chicken breast' },
@@ -156,7 +156,7 @@
     if (grid && items.length) {
       grid.innerHTML = items.map(it => (
         `<div class="menu-card" data-item-id="${it.id}" data-item-name="${it.name}" data-item-price="${it.price}">`+
-          `<div class="card-img"></div>`+
+          `<div class="card-img">${it.image ? `<img src="${it.image}" alt="${it.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">` : ''}</div>`+
           `<div class="menu-info"><div class="menu-title">${it.name}</div>`+
             (it.desc ? `<div class="menu-sub">${it.desc}</div>` : '')+
           `</div>`+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Restaurant Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='restaurant-login';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header">
+            <div class="brand">FRONTDASH</div>
+            <div class="header-actions">
+                <a class="pill" href="#" id="addressPill">🏠 10881 Sedalia Dr, McKinney, TX 75070 United States</a>
+                <a class="icon-btn notification-bell" href="#" title="notifications">🔔<span class="notification-count" style="display: none;">0</span></a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">1</span></a>
+            </div>
+        </header>
+
+        <main class="login-page">
+            <div class="login-container">
+                <div class="login-title-section">
+                    <h1 class="page-title">Restaurant login</h1>
+                </div>
+                
+                <div class="login-form-section">
+                    <div class="login-form-card">
+                        <h2 class="form-title">Restaurant Login</h2>
+                        
+                        <form class="login-form" id="restaurantLoginForm">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="login-btn">Login</button>
+                                <button type="button" class="forgot-btn">Forgot Password?</button>
+                            </div>
+                            
+                            <div class="sso-section">
+                                <select class="sso-dropdown">
+                                    <option value="">SSO Login</option>
+                                    <option value="google">Google</option>
+                                    <option value="microsoft">Microsoft</option>
+                                    <option value="facebook">Facebook</option>
+                                </select>
+                            </div>
+                            
+                            <div class="login-links">
+                                <a href="#" class="login-link">customer login</a>
+                                <a href="#" class="login-link">admin login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

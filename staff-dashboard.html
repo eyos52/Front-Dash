@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Staff Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='staff-dashboard';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="staff-dashboard-container">
+            <aside class="staff-dashboard-sidebar">
+                <h1 class="staff-dashboard-title">Front Dash Staff Dashboard</h1>
+            </aside>
+            
+            <main class="staff-dashboard-main">
+                <div class="staff-dashboard-window">
+                    <div class="staff-dashboard-header">
+                        <div class="window-controls">
+                            <span class="window-dot"></span>
+                            <span class="window-dot"></span>
+                            <span class="window-dot"></span>
+                        </div>
+                        <h2 class="staff-dashboard-window-title">FRONTDASH STAFF</h2>
+                    </div>
+                    
+                    <div class="staff-dashboard-content">
+                        <div class="staff-summary-cards">
+                            <div class="staff-summary-card">
+                                <div class="staff-card-title">Pending Orders</div>
+                                <div class="staff-card-value" id="pendingOrdersCount">7</div>
+                            </div>
+                            <div class="staff-summary-card">
+                                <div class="staff-card-title">Drivers Available</div>
+                                <div class="staff-card-value" id="driversAvailableCount">4</div>
+                            </div>
+                            <div class="staff-summary-card">
+                                <div class="staff-card-title">Queued</div>
+                                <div class="staff-card-value" id="queuedCount">2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="staff-orders-section">
+                            <h3 class="staff-section-title">Pending Orders</h3>
+                            
+                            <div class="staff-table-container">
+                                <table class="staff-orders-table" id="ordersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Order Number</th>
+                                            <th>Restaurant Name</th>
+                                            <th>Price</th>
+                                            <th>Order Time</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordersTableBody">
+                                        <tr>
+                                            <td>#10231</td>
+                                            <td>Foodtastic</td>
+                                            <td>$20.26</td>
+                                            <td>Ordered: 5:20pm</td>
+                                            <td><span class="staff-status-badge queued">Queued</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#10232</td>
+                                            <td>Foodtastic</td>
+                                            <td>$67.00</td>
+                                            <td>Ordered: 5:23pm</td>
+                                            <td><span class="staff-status-badge pending">Pending</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#10233</td>
+                                            <td>BurgerLo</td>
+                                            <td>$69.82</td>
+                                            <td>Ordered: 5:23pm</td>
+                                            <td><span class="staff-status-badge pending">Pending</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#10234</td>
+                                            <td>BurgerLo</td>
+                                            <td>$17.38</td>
+                                            <td>Ordered: 5:24pm</td>
+                                            <td><span class="staff-status-badge queued">Queued</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="staff-action-section">
+                                <button class="staff-action-btn" id="retrieveFirstOrderBtn">
+                                    Retrieve First Order From Queued
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Staff Dashboard functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const retrieveFirstOrderBtn = document.getElementById('retrieveFirstOrderBtn');
+            const ordersTableBody = document.getElementById('ordersTableBody');
+            const pendingOrdersCount = document.getElementById('pendingOrdersCount');
+            const queuedCount = document.getElementById('queuedCount');
+
+            // Retrieve First Order functionality
+            if (retrieveFirstOrderBtn) {
+                retrieveFirstOrderBtn.addEventListener('click', function() {
+                    const queuedRows = Array.from(ordersTableBody.querySelectorAll('tr')).filter(row => {
+                        const statusBadge = row.querySelector('.staff-status-badge.queued');
+                        return statusBadge && statusBadge.textContent.trim() === 'Queued';
+                    });
+
+                    if (queuedRows.length === 0) {
+                        alert('No queued orders available to retrieve.');
+                        return;
+                    }
+
+                    // Get the first queued order
+                    const firstQueuedRow = queuedRows[0];
+                    const orderNumber = firstQueuedRow.cells[0].textContent;
+                    const restaurantName = firstQueuedRow.cells[1].textContent;
+                    const price = firstQueuedRow.cells[2].textContent;
+
+                    // Confirm retrieval
+                    if (confirm(`Retrieve order ${orderNumber} from ${restaurantName} (${price})?`)) {
+                        // Update status from Queued to Pending
+                        const statusBadge = firstQueuedRow.querySelector('.staff-status-badge');
+                        statusBadge.textContent = 'Pending';
+                        statusBadge.className = 'staff-status-badge pending';
+
+                        // Update counts
+                        updateCounts();
+
+                        // Show success message
+                        alert(`Order ${orderNumber} has been retrieved and is now pending assignment to a driver.`);
+                    }
+                });
+            }
+
+            // Update summary counts
+            function updateCounts() {
+                const allRows = ordersTableBody.querySelectorAll('tr');
+                let pendingCount = 0;
+                let queuedCount = 0;
+
+                allRows.forEach(row => {
+                    const statusBadge = row.querySelector('.staff-status-badge');
+                    if (statusBadge) {
+                        const status = statusBadge.textContent.trim();
+                        if (status === 'Pending') {
+                            pendingCount++;
+                        } else if (status === 'Queued') {
+                            queuedCount++;
+                        }
+                    }
+                });
+
+                // Update the display counts
+                if (pendingOrdersCount) {
+                    pendingOrdersCount.textContent = pendingCount;
+                }
+                if (queuedCount) {
+                    queuedCount.textContent = queuedCount;
+                }
+            }
+
+            // Auto-refresh functionality (simulate real-time updates)
+            function simulateRealTimeUpdates() {
+                // Randomly update driver availability
+                const driversAvailableCount = document.getElementById('driversAvailableCount');
+                if (driversAvailableCount) {
+                    const currentCount = parseInt(driversAvailableCount.textContent);
+                    const newCount = Math.max(1, Math.min(8, currentCount + Math.floor(Math.random() * 3) - 1));
+                    driversAvailableCount.textContent = newCount;
+                }
+
+                // Occasionally add new orders
+                if (Math.random() < 0.1) { // 10% chance every 30 seconds
+                    addNewOrder();
+                }
+            }
+
+            // Add new order functionality
+            function addNewOrder() {
+                const restaurants = ['Foodtastic', 'BurgerLo', 'Pizza Palace', 'Taco Time', 'Sushi Express'];
+                const prices = ['$15.99', '$23.45', '$31.20', '$18.75', '$27.80', '$12.50', '$35.60'];
+                
+                const randomRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+                const randomPrice = prices[Math.floor(Math.random() * prices.length)];
+                const currentTime = new Date();
+                const timeString = `Ordered: ${currentTime.getHours()}:${String(currentTime.getMinutes()).padStart(2, '0')}pm`;
+                const orderNumber = `#${10000 + Math.floor(Math.random() * 9000)}`;
+
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${orderNumber}</td>
+                    <td>${randomRestaurant}</td>
+                    <td>${randomPrice}</td>
+                    <td>${timeString}</td>
+                    <td><span class="staff-status-badge queued">Queued</span></td>
+                `;
+
+                ordersTableBody.appendChild(newRow);
+                updateCounts();
+
+                // Show notification
+                console.log(`New order ${orderNumber} from ${randomRestaurant} added to queue.`);
+            }
+
+            // Initialize counts
+            updateCounts();
+
+            // Set up auto-refresh (every 30 seconds)
+            setInterval(simulateRealTimeUpdates, 30000);
+
+            // Add some interactive features
+            const statusBadges = document.querySelectorAll('.staff-status-badge');
+            statusBadges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const orderNumber = row.cells[0].textContent;
+                    const restaurantName = row.cells[1].textContent;
+                    const price = row.cells[2].textContent;
+                    const currentStatus = this.textContent.trim();
+
+                    alert(`Order Details:\nOrder: ${orderNumber}\nRestaurant: ${restaurantName}\nPrice: ${price}\nStatus: ${currentStatus}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

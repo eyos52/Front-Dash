@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Withdraw from FrontDash</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='withdraw-from-frontdash';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="dashboard-container">
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-brand">FrontDash</h1>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <a href="restaurant-dashboard.html" class="nav-item">Orders</a>
+                    <a href="manage-menu.html" class="nav-item">Manage menu</a>
+                    <a href="hours-of-operation.html" class="nav-item">Hours of Operation</a>
+                    <a href="contact-information.html" class="nav-item">Contact Information</a>
+                    <a href="change-password.html" class="nav-item">Change Password</a>
+                    <a href="withdraw-from-frontdash.html" class="nav-item active">Withdraw from FrontDash</a>
+                    <a href="restaurant-login.html" class="nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="dashboard-main">
+                <div class="dashboard-header">
+                    <h2 class="page-title">Withdraw from FrontDash</h2>
+                </div>
+                
+                <!-- Success Message (initially visible) -->
+                <div class="withdraw-success-container" id="withdrawSuccessContainer">
+                    <div class="success-message">
+                        <h3>Withdraw request has been successfully submitted</h3>
+                    </div>
+                    <div class="form-actions">
+                        <button class="submit-request-btn" id="submitRequestBtn">Submit Request</button>
+                    </div>
+                </div>
+                
+                <!-- Withdrawal Form (initially hidden) -->
+                <div class="withdraw-form-container" id="withdrawFormContainer" style="display: none;">
+                    <form class="withdraw-form" id="withdrawForm">
+                        <div class="form-field">
+                            <label for="withdrawReason">Enter Reason for request:</label>
+                            <div class="select-container">
+                                <select id="withdrawReason" class="withdraw-select" required>
+                                    <option value="">Select a reason...</option>
+                                    <option value="business-closure">Business Closure</option>
+                                    <option value="switching-platforms">Switching to Another Platform</option>
+                                    <option value="financial-issues">Financial Issues</option>
+                                    <option value="technical-problems">Technical Problems</option>
+                                    <option value="customer-service">Customer Service Issues</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <span class="select-arrow">▼</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="discontinueAccount" class="discontinue-checkbox" checked required>
+                                <span class="checkbox-text">I wish to discontinue this FrontDash account</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="submit-request-btn">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Withdraw from FrontDash functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const withdrawForm = document.getElementById('withdrawForm');
+            const withdrawReasonSelect = document.getElementById('withdrawReason');
+            const discontinueCheckbox = document.getElementById('discontinueAccount');
+            const navItems = document.querySelectorAll('.nav-item');
+            const withdrawSuccessContainer = document.getElementById('withdrawSuccessContainer');
+            const withdrawFormContainer = document.getElementById('withdrawFormContainer');
+            const submitRequestBtn = document.getElementById('submitRequestBtn');
+
+            // Navigation functionality
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    if (href === 'restaurant-dashboard.html') {
+                        window.location.href = href;
+                    } else if (href === 'manage-menu.html') {
+                        window.location.href = href;
+                    } else if (href === 'hours-of-operation.html') {
+                        window.location.href = href;
+                    } else if (href === 'contact-information.html') {
+                        window.location.href = href;
+                    } else if (href === 'change-password.html') {
+                        window.location.href = href;
+                    } else if (href === '#') {
+                        // Handle other navigation items
+                        const text = this.textContent.trim();
+                        switch(text) {
+                            case 'Orders':
+                                window.location.href = 'restaurant-dashboard.html';
+                                break;
+                            case 'Manage menu':
+                                window.location.href = 'manage-menu.html';
+                                break;
+                            case 'Hours of Operation':
+                                window.location.href = 'hours-of-operation.html';
+                                break;
+                            case 'Contact Information':
+                                window.location.href = 'contact-information.html';
+                                break;
+                            case 'Change Password':
+                                window.location.href = 'change-password.html';
+                                break;
+                            case 'Withdraw from FrontDash':
+                                // Stay on current page
+                                break;
+                            case 'Logout':
+                                window.location.href = 'restaurant-login.html';
+                                break;
+                        }
+                    }
+                });
+            });
+
+            // Handle "Submit Request" button click (shows the form)
+            if (submitRequestBtn) {
+                submitRequestBtn.addEventListener('click', function() {
+                    // Hide success message and show form
+                    withdrawSuccessContainer.style.display = 'none';
+                    withdrawFormContainer.style.display = 'block';
+                });
+            }
+
+            // Form submission
+            if (withdrawForm) {
+                withdrawForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const reason = withdrawReasonSelect.value;
+                    const discontinue = discontinueCheckbox.checked;
+                    
+                    // Validate form
+                    if (!reason) {
+                        alert('Please select a reason for your withdrawal request');
+                        return;
+                    }
+                    
+                    if (!discontinue) {
+                        alert('You must confirm that you wish to discontinue your FrontDash account');
+                        return;
+                    }
+                    
+                    // Confirm withdrawal
+                    const confirmMessage = `Are you sure you want to submit a withdrawal request?\n\nReason: ${reason}\n\nThis action cannot be undone.`;
+                    if (confirm(confirmMessage)) {
+                        // Hide form and show success message
+                        withdrawFormContainer.style.display = 'none';
+                        withdrawSuccessContainer.style.display = 'block';
+                        
+                        // Reset form for next time
+                        withdrawForm.reset();
+                        discontinueCheckbox.checked = true; // Keep checkbox checked as per wireframe
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

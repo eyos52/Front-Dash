@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Staff Delivery Time</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='staff-delivery-time';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="staff-delivery-time-container">
+            <div class="staff-delivery-time-title">
+                <h1>Staff Delivery Time</h1>
+            </div>
+            
+            <div class="staff-delivery-time-panel">
+                <div class="staff-delivery-time-header">
+                    <h2>FRONT DASH STAFF</h2>
+                </div>
+                
+                <div class="staff-delivery-time-content">
+                    <div class="order-information-section">
+                        <div class="order-info-item">
+                            <span class="order-info-label">Order #:</span>
+                            <span class="order-info-value">25367</span>
+                        </div>
+                        <div class="order-info-item">
+                            <span class="order-info-label">Current Pickup:</span>
+                            <span class="order-info-value">BurgerLo</span>
+                        </div>
+                        <div class="order-info-item">
+                            <span class="order-info-label">Dropoff:</span>
+                            <span class="order-info-value">590 Elm Street</span>
+                        </div>
+                        <div class="order-info-item">
+                            <span class="order-info-label">Distance:</span>
+                            <span class="order-info-value">2.8 miles</span>
+                        </div>
+                    </div>
+                    
+                    <div class="eta-calculation-section">
+                        <div class="eta-item">
+                            <span class="eta-label">Auto-calculated ETA:</span>
+                            <span class="eta-value" id="autoEtaValue">12 minutes</span>
+                            <button class="eta-btn" id="recalculateBtn">Recalculate</button>
+                        </div>
+                    </div>
+                    
+                    <div class="manual-override-section">
+                        <div class="manual-override-item">
+                            <span class="manual-override-label">Manual Override:</span>
+                            <div class="manual-override-input-group">
+                                <span class="input-brace">{</span>
+                                <input type="number" id="manualEtaInput" class="manual-override-input" value="15" min="1" max="120">
+                                <span class="input-unit">Minutes</span>
+                                <span class="input-brace">}</span>
+                            </div>
+                            <button class="eta-btn" id="applyBtn">Apply</button>
+                        </div>
+                    </div>
+                    
+                    <div class="confirmation-section">
+                        <div class="confirmation-item">
+                            <span class="confirmation-label">Confirm ETA & Continue :</span>
+                            <button class="assign-driver-btn" id="assignDriverBtn">Assign Driver</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Staff Delivery Time functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const autoEtaValue = document.getElementById('autoEtaValue');
+            const recalculateBtn = document.getElementById('recalculateBtn');
+            const manualEtaInput = document.getElementById('manualEtaInput');
+            const applyBtn = document.getElementById('applyBtn');
+            const assignDriverBtn = document.getElementById('assignDriverBtn');
+            
+            let currentEta = 12; // Default auto-calculated ETA
+            let isManualOverride = false;
+
+            // Recalculate ETA functionality
+            if (recalculateBtn) {
+                recalculateBtn.addEventListener('click', function() {
+                    // Simulate recalculation with random variation
+                    const baseTime = 12;
+                    const variation = Math.floor(Math.random() * 6) - 3; // -3 to +3 minutes
+                    currentEta = Math.max(5, baseTime + variation);
+                    
+                    // Update display
+                    autoEtaValue.textContent = `${currentEta} minutes`;
+                    
+                    // Reset manual override
+                    isManualOverride = false;
+                    manualEtaInput.value = currentEta;
+                    
+                    // Show feedback
+                    this.textContent = 'Recalculated!';
+                    this.style.backgroundColor = '#059669';
+                    setTimeout(() => {
+                        this.textContent = 'Recalculate';
+                        this.style.backgroundColor = '#374151';
+                    }, 2000);
+                });
+            }
+
+            // Apply Manual Override functionality
+            if (applyBtn) {
+                applyBtn.addEventListener('click', function() {
+                    const manualValue = parseInt(manualEtaInput.value);
+                    
+                    if (isNaN(manualValue) || manualValue < 1 || manualValue > 120) {
+                        alert('Please enter a valid ETA between 1 and 120 minutes.');
+                        return;
+                    }
+                    
+                    // Apply manual override
+                    currentEta = manualValue;
+                    isManualOverride = true;
+                    
+                    // Update display
+                    autoEtaValue.textContent = `${currentEta} minutes`;
+                    
+                    // Show feedback
+                    this.textContent = 'Applied!';
+                    this.style.backgroundColor = '#059669';
+                    setTimeout(() => {
+                        this.textContent = 'Apply';
+                        this.style.backgroundColor = '#374151';
+                    }, 2000);
+                });
+            }
+
+            // Assign Driver functionality
+            if (assignDriverBtn) {
+                assignDriverBtn.addEventListener('click', function() {
+                    const orderNumber = document.querySelector('.order-info-value').textContent;
+                    const pickupLocation = document.querySelectorAll('.order-info-value')[1].textContent;
+                    const dropoffLocation = document.querySelectorAll('.order-info-value')[2].textContent;
+                    const distance = document.querySelectorAll('.order-info-value')[3].textContent;
+                    
+                    // Confirm assignment
+                    const confirmMessage = `Confirm ETA & Assign Driver?\n\nOrder: #${orderNumber}\nPickup: ${pickupLocation}\nDropoff: ${dropoffLocation}\nDistance: ${distance}\nETA: ${currentEta} minutes`;
+                    
+                    if (confirm(confirmMessage)) {
+                        // Simulate assignment
+                        alert(`Driver assigned successfully!\n\nOrder #${orderNumber} has been assigned with an ETA of ${currentEta} minutes.\n\nOrder status updated to "In Progress".`);
+                        
+                        // Show success feedback
+                        this.textContent = 'Assigned!';
+                        this.style.backgroundColor = '#059669';
+                        setTimeout(() => {
+                            this.textContent = 'Assign Driver';
+                            this.style.backgroundColor = '#374151';
+                        }, 3000);
+                    }
+                });
+            }
+
+            // Input validation for manual override
+            if (manualEtaInput) {
+                manualEtaInput.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    if (value < 1) {
+                        this.value = 1;
+                    } else if (value > 120) {
+                        this.value = 120;
+                    }
+                });
+
+                // Allow Enter key to apply
+                manualEtaInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        applyBtn.click();
+                    }
+                });
+            }
+
+            // Auto-update manual input when auto ETA changes
+            function updateManualInput() {
+                if (manualEtaInput && !isManualOverride) {
+                    manualEtaInput.value = currentEta;
+                }
+            }
+
+            // Initialize
+            updateManualInput();
+        });
+    </script>
+</body>
+</html>

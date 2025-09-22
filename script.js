@@ -6,29 +6,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuFileName = document.getElementById('menuFileName');
     const logoFileName = document.getElementById('logoFileName');
 
-    // File upload handlers
-    menuUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            menuFileName.textContent = file.name;
-            menuFileName.style.color = '#10b981';
-        } else {
-            menuFileName.textContent = '';
-        }
-    });
+    // File upload handlers - only run if elements exist
+    if (menuUpload && menuFileName) {
+        menuUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                menuFileName.textContent = file.name;
+                menuFileName.style.color = '#10b981';
+            } else {
+                menuFileName.textContent = '';
+            }
+        });
+    }
 
-    logoUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            logoFileName.textContent = file.name;
-            logoFileName.style.color = '#10b981';
-        } else {
-            logoFileName.textContent = '';
-        }
-    });
+    if (logoUpload && logoFileName) {
+        logoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                logoFileName.textContent = file.name;
+                logoFileName.style.color = '#10b981';
+            } else {
+                logoFileName.textContent = '';
+            }
+        });
+    }
 
     // Form validation
     function validateForm() {
+        if (!form) return true; // If no form, consider valid
         let isValid = true;
         const inputs = form.querySelectorAll('input[required]');
         
@@ -77,41 +82,43 @@ document.addEventListener('DOMContentLoaded', function() {
         return phoneRegex.test(cleanPhone) && cleanPhone.length >= 10;
     }
 
-    // Form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        if (validateForm()) {
-            // Show loading state
-            const submitButton = form.querySelector('.submit-button');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = 'Submitting...';
-            submitButton.disabled = true;
+    // Form submission - only run if form exists
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Simulate form submission (replace with actual API call)
-            setTimeout(() => {
-                // Collect form data
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData);
+            if (validateForm()) {
+                // Show loading state
+                const submitButton = form.querySelector('.submit-button');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Submitting...';
+                submitButton.disabled = true;
                 
-                // Log form data (replace with actual submission)
-                console.log('Form submitted with data:', data);
-                
-                // Show success message
-                showSuccessMessage();
-                
-                // Reset form
-                form.reset();
-                menuFileName.textContent = '';
-                logoFileName.textContent = '';
-                
-                // Reset button
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-                
-            }, 2000);
-        }
-    });
+                // Simulate form submission (replace with actual API call)
+                setTimeout(() => {
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    // Log form data (replace with actual submission)
+                    console.log('Form submitted with data:', data);
+                    
+                    // Show success message
+                    showSuccessMessage();
+                    
+                    // Reset form
+                    form.reset();
+                    if (menuFileName) menuFileName.textContent = '';
+                    if (logoFileName) logoFileName.textContent = '';
+                    
+                    // Reset button
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    
+                }, 2000);
+            }
+        });
+    }
 
     function showSuccessMessage() {
         const successDiv = document.createElement('div');
@@ -135,17 +142,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Real-time validation
-    const inputs = form.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            if (input.hasAttribute('required') && input.value.trim()) {
-                if (input.type === 'email' && !isValidEmail(input.value)) {
-                    showError(input, 'Please enter a valid email address');
-                } else if (input.type === 'tel' && !isValidPhone(input.value)) {
-                    showError(input, 'Please enter a valid phone number');
-                } else {
-                    // Clear any existing errors
+    // Real-time validation - only run if form exists
+    if (form) {
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (input.hasAttribute('required') && input.value.trim()) {
+                    if (input.type === 'email' && !isValidEmail(input.value)) {
+                        showError(input, 'Please enter a valid email address');
+                    } else if (input.type === 'tel' && !isValidPhone(input.value)) {
+                        showError(input, 'Please enter a valid phone number');
+                    } else {
+                        // Clear any existing errors
+                        input.classList.remove('error');
+                        const formGroup = input.closest('.form-group');
+                        const existingError = formGroup.querySelector('.error-message');
+                        if (existingError) {
+                            existingError.remove();
+                        }
+                    }
+                }
+            });
+
+            input.addEventListener('input', function() {
+                // Clear error styling when user starts typing
+                if (input.classList.contains('error')) {
                     input.classList.remove('error');
                     const formGroup = input.closest('.form-group');
                     const existingError = formGroup.querySelector('.error-message');
@@ -153,45 +174,37 @@ document.addEventListener('DOMContentLoaded', function() {
                         existingError.remove();
                     }
                 }
-            }
+            });
         });
+    }
 
-        input.addEventListener('input', function() {
-            // Clear error styling when user starts typing
-            if (input.classList.contains('error')) {
-                input.classList.remove('error');
-                const formGroup = input.closest('.form-group');
-                const existingError = formGroup.querySelector('.error-message');
-                if (existingError) {
-                    existingError.remove();
-                }
-            }
-        });
-    });
-
-    // Phone number formatting
+    // Phone number formatting - only run if phone input exists
     const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 6) {
-            value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-        } else if (value.length >= 3) {
-            value = value.replace(/(\d{3})(\d{0,3})/, '($1) $2');
-        }
-        e.target.value = value;
-    });
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+            } else if (value.length >= 3) {
+                value = value.replace(/(\d{3})(\d{0,3})/, '($1) $2');
+            }
+            e.target.value = value;
+        });
+    }
 
-    // Hours formatting suggestions
+    // Hours formatting suggestions - only run if hours input exists
     const hoursInput = document.getElementById('hours');
-    hoursInput.addEventListener('focus', function() {
-        if (!this.value) {
-            this.placeholder = 'e.g., 9:00 AM - 10:00 PM';
-        }
-    });
+    if (hoursInput) {
+        hoursInput.addEventListener('focus', function() {
+            if (!this.value) {
+                this.placeholder = 'e.g., 9:00 AM - 10:00 PM';
+            }
+        });
 
-    hoursInput.addEventListener('blur', function() {
-        if (!this.value) {
-            this.placeholder = 'Enter hours of operation...';
-        }
-    });
+        hoursInput.addEventListener('blur', function() {
+            if (!this.value) {
+                this.placeholder = 'Enter hours of operation...';
+            }
+        });
+    }
 });

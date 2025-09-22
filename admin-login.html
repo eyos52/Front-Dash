@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Admin Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='admin-login';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="fd-header admin-header">
+            <div class="brand">FRONTDASH</div>
+        </header>
+        
+        <main class="admin-login-page">
+            <div class="admin-login-container">
+                <div class="admin-login-card">
+                    <h1 class="admin-login-title">Login</h1>
+                    
+                    <form class="admin-login-form" id="adminLoginForm">
+                        <div class="form-group">
+                            <input type="text" id="adminName" class="admin-input" placeholder="Name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" id="adminEmail" class="admin-input" placeholder="Email" required>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="admin-login-btn">Login</button>
+                            <button type="button" class="admin-forgot-btn">Forgot Password?</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Admin Login functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminLoginForm = document.getElementById('adminLoginForm');
+            const adminNameInput = document.getElementById('adminName');
+            const adminEmailInput = document.getElementById('adminEmail');
+            const adminLoginBtn = document.querySelector('.admin-login-btn');
+            const adminForgotBtn = document.querySelector('.admin-forgot-btn');
+
+            // Form submission
+            if (adminLoginForm) {
+                adminLoginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = adminNameInput.value.trim();
+                    const email = adminEmailInput.value.trim();
+                    
+                    // Basic validation
+                    if (!name) {
+                        alert('Please enter your name');
+                        adminNameInput.focus();
+                        return;
+                    }
+                    
+                    if (!email) {
+                        alert('Please enter your email');
+                        adminEmailInput.focus();
+                        return;
+                    }
+                    
+                    // Email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('Please enter a valid email address');
+                        adminEmailInput.focus();
+                        return;
+                    }
+                    
+                    // Simulate admin login
+                    alert('Login successful! Redirecting to dashboard...');
+                    
+                    // In a real application, this would redirect to the admin dashboard
+                    // window.location.href = 'admin-dashboard.html';
+                });
+            }
+
+            // Forgot Password button
+            if (adminForgotBtn) {
+                adminForgotBtn.addEventListener('click', function() {
+                    alert('Forgot Password functionality coming soon!');
+                });
+            }
+
+
+        });
+    </script>
+</body>
+</html>

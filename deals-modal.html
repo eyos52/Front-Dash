@@ -1,0 +1,20 @@
+<!-- Deals Modal -->
+<div id="dealsModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content deals-modal">
+        <div class="modal-header">
+            <h3>🎉 Special Deals</h3>
+            <button class="close-btn" id="closeDealsModal">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div id="dealsList" class="deals-list">
+                <!-- Deals will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="dealsManager.hideDealsModal()">Close</button>
+            <button class="btn-primary" onclick="dealsManager.generateDeals()">Get New Deals</button>
+        </div>
+    </div>
+</div>

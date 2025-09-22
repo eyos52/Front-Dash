@@ -12,47 +12,279 @@
 <body>
     <div class="app-shell">
         <header class="fd-header">
-            <a class="icon-btn" href="checkout.html">←</a>
+            <a class="icon-btn" href="checkout.html">← Back to Store</a>
             <div class="brand">FrontDash</div>
             <div class="header-actions">
-                <a class="pill" href="#" id="addressPill">🏠 123 main str</a>
-                <a class="icon-btn" href="#">🔔</a>
-                <a class="pill" href="checkout.html">🛒 <span id="cartCount">0</span></a>
+                <a class="pill" href="#" id="addressPill">🏠 10881 Sedalia Dr, McKinney, TX 75070 United States</a>
+                <a class="icon-btn notification-bell" href="#" title="notifications">🔔<span class="notification-count" style="display: none;">0</span></a>
+                <a class="pill" href="checkout.html">🛒 <span id="cartCount">1</span></a>
             </div>
         </header>
 
         <main class="payment-page">
             <section class="checkout-main">
                 <div class="section-block">
+                    <div class="block-title">1. Account details</div>
+                    <div class="account-info">
+                        <div class="info-item">
+                            <span class="info-label">Customer Name:</span>
+                            <span class="info-value">John Doe</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value">john.doe@email.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-block">
+                    <div class="block-title">2. Shipping details</div>
+                    <div class="shipping-info">
+                        <div class="info-item">
+                            <span class="info-label">Delivery Address:</span>
+                            <span class="info-value">10881 Sedalia Dr, McKinney, TX 75070 United States</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Estimated Delivery:</span>
+                            <span class="info-value">28 minutes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-block">
                     <div class="block-title">3. Payment details</div>
+                    <div class="payment-list">
+                        <a class="payment-option" href="#" id="creditCard">Credit/Debit Card</a>
+                        <a class="payment-option" href="#">Paypal</a>
+                        <a class="payment-option" href="#">Venmo</a>
+                        <a class="payment-option" href="#">Cash App Pay</a>
+                    </div>
                     <button class="btn" id="openCardModal">Add New Card</button>
                 </div>
             </section>
             <aside class="checkout-summary">
                 <div class="summary-card">
-                    <div class="summary-title">Order Summary</div>
-                    <div class="summary-row"><span>Total</span><span id="paymentTotal">$0.00</span></div>
+                    <div class="summary-title">Your cart from <span id="summaryRestaurant">Whataburger</span></div>
+                    <div class="summary-items" id="summaryItems">
+                        <div class="summary-item">1 x Big Mac</div>
+                        <div class="summary-price">$5.99</div>
+                    </div>
+                    <div class="summary-row"><span>Subtotal</span><span id="subtotal">$13.83</span></div>
+                    <div class="summary-row"><span>Delivery Fee</span><span>$0.0</span></div>
+                    <div class="summary-row"><span>Fee & Estimated Tax</span><span id="fees">$20.27</span></div>
+                    <div class="summary-total"><span>Total</span><span id="total">$20.27</span></div>
                     <a class="btn" href="confirmation.html" id="confirmPayment">Confirm</a>
                 </div>
             </aside>
         </main>
     </div>
 
-    <div class="modal" id="cardModal" hidden>
+    <!-- Add New Card Modal -->
+    <div id="cardModal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <div>Add New Card</div>
-                <button class="icon-btn" id="closeCardModal">✕</button>
+                <h3>Add New Card</h3>
+                <button class="close-btn" id="closeCardModal">&times;</button>
             </div>
-            <div class="modal-body grid-2">
-                <label class="input"><input type="text" id="cardNumber" placeholder="Card Number"></label>
-                <label class="input"><input type="text" id="cvv" placeholder="CVV"></label>
-                <label class="input"><input type="text" id="expiration" placeholder="Expiration"></label>
-                <label class="input"><input type="text" id="zip" placeholder="Zip Code"></label>
-                <button class="btn" id="saveCard">Confirm</button>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cardholderName">Cardholder Name:</label>
+                    <input type="text" id="cardholderName" placeholder="Full name on card" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiration">Expiration:</label>
+                        <input type="text" id="expiration" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" id="cvv" placeholder="123" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cardType">Card Type:</label>
+                    <select id="cardType" required>
+                        <option value="">Select card type</option>
+                        <option value="visa">Visa</option>
+                        <option value="mastercard">Mastercard</option>
+                        <option value="amex">American Express</option>
+                        <option value="discover">Discover</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="billingAddress">Billing Address:</label>
+                    <input type="text" id="billingAddress" placeholder="Street address" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="billingCity">City:</label>
+                        <input type="text" id="billingCity" placeholder="City" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="billingState">State:</label>
+                        <input type="text" id="billingState" placeholder="State" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="billingZip">Zip Code:</label>
+                        <input type="text" id="billingZip" placeholder="12345" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="saveCard">Confirm</button>
             </div>
         </div>
     </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    
+    <script>
+        // Payment page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const openCardModal = document.getElementById('openCardModal');
+            const cardModal = document.getElementById('cardModal');
+            const closeCardModal = document.getElementById('closeCardModal');
+            const saveCard = document.getElementById('saveCard');
+            const cardNumberInput = document.getElementById('cardNumber');
+            const expirationInput = document.getElementById('expiration');
+            const cvvInput = document.getElementById('cvv');
+            const cardTypeSelect = document.getElementById('cardType');
+
+            // Open card modal
+            if (openCardModal) {
+                openCardModal.addEventListener('click', function() {
+                    cardModal.style.display = 'flex';
+                });
+            }
+
+            // Close card modal
+            if (closeCardModal) {
+                closeCardModal.addEventListener('click', function() {
+                    cardModal.style.display = 'none';
+                });
+            }
+
+            // Close modal when clicking outside
+            if (cardModal) {
+                cardModal.addEventListener('click', function(e) {
+                    if (e.target === cardModal) {
+                        cardModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // Auto-detect card type based on card number
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function() {
+                    const cardNumber = this.value.replace(/\s/g, '');
+                    let cardType = '';
+                    
+                    if (cardNumber.startsWith('4')) {
+                        cardType = 'visa';
+                    } else if (cardNumber.startsWith('5') || cardNumber.startsWith('2')) {
+                        cardType = 'mastercard';
+                    } else if (cardNumber.startsWith('3')) {
+                        cardType = 'amex';
+                    } else if (cardNumber.startsWith('6')) {
+                        cardType = 'discover';
+                    }
+                    
+                    if (cardType && cardTypeSelect) {
+                        cardTypeSelect.value = cardType;
+                    }
+                });
+            }
+
+            // Format card number with spaces
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function() {
+                    let value = this.value.replace(/\s/g, '');
+                    let formattedValue = value.replace(/(.{4})/g, '$1 ').trim();
+                    this.value = formattedValue;
+                });
+            }
+
+            // Format expiration date
+            if (expirationInput) {
+                expirationInput.addEventListener('input', function() {
+                    let value = this.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    this.value = value;
+                });
+            }
+
+            // Limit CVV input
+            if (cvvInput) {
+                cvvInput.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '').substring(0, 4);
+                });
+            }
+
+            // Save card functionality
+            if (saveCard) {
+                saveCard.addEventListener('click', function() {
+                    const cardholderName = document.getElementById('cardholderName').value.trim();
+                    const cardNumber = document.getElementById('cardNumber').value.trim();
+                    const expiration = document.getElementById('expiration').value.trim();
+                    const cvv = document.getElementById('cvv').value.trim();
+                    const cardType = document.getElementById('cardType').value;
+                    const billingAddress = document.getElementById('billingAddress').value.trim();
+                    const billingCity = document.getElementById('billingCity').value.trim();
+                    const billingState = document.getElementById('billingState').value.trim();
+                    const billingZip = document.getElementById('billingZip').value.trim();
+
+                    // Validate required fields
+                    if (!cardholderName || !cardNumber || !expiration || !cvv || !cardType || !billingAddress || !billingCity || !billingState || !billingZip) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+
+                    // Validate card number length
+                    const cleanCardNumber = cardNumber.replace(/\s/g, '');
+                    if (cleanCardNumber.length < 13 || cleanCardNumber.length > 19) {
+                        alert('Please enter a valid card number.');
+                        return;
+                    }
+
+                    // Validate expiration format
+                    if (!/^\d{2}\/\d{2}$/.test(expiration)) {
+                        alert('Please enter expiration date in MM/YY format.');
+                        return;
+                    }
+
+                    // Validate CVV length
+                    if (cvv.length < 3 || cvv.length > 4) {
+                        alert('Please enter a valid CVV.');
+                        return;
+                    }
+
+                    // Simulate card save
+                    alert(`Card saved successfully!\n\nCardholder: ${cardholderName}\nCard Type: ${cardType.toUpperCase()}\nLast 4 digits: ${cleanCardNumber.slice(-4)}`);
+                    
+                    // Close modal
+                    cardModal.style.display = 'none';
+                    
+                    // Reset form
+                    document.getElementById('cardholderName').value = '';
+                    document.getElementById('cardNumber').value = '';
+                    document.getElementById('expiration').value = '';
+                    document.getElementById('cvv').value = '';
+                    document.getElementById('cardType').value = '';
+                    document.getElementById('billingAddress').value = '';
+                    document.getElementById('billingCity').value = '';
+                    document.getElementById('billingState').value = '';
+                    document.getElementById('billingZip').value = '';
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

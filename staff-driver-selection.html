@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Staff Driver Selection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='staff-driver-selection';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="staff-driver-selection-container">
+            <div class="staff-driver-window">
+                <div class="staff-driver-header">
+                    <div class="window-controls">
+                        <span class="window-dot"></span>
+                        <span class="window-dot"></span>
+                        <span class="window-dot"></span>
+                    </div>
+                    <h1 class="staff-driver-window-title">FRONT DASH STAFF</h1>
+                </div>
+                
+                <div class="staff-driver-content">
+                    <div class="order-details-section">
+                        <div class="order-details-card">
+                            <div class="order-info">
+                                <div class="order-detail">
+                                    <span class="order-label">Order #:</span>
+                                    <span class="order-value">25367</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="order-label">Current Pickup:</span>
+                                    <span class="order-value">BurgerLo</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="order-label">Dropoff:</span>
+                                    <span class="order-value">590 Elm Street</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="order-label">ETA:</span>
+                                    <span class="order-value">12m</span>
+                                </div>
+                            </div>
+                            <div class="order-actions">
+                                <button class="assign-driver-btn" id="assignDriverBtn">
+                                    Assign Available Driver
+                                    <span class="dropdown-arrow">▼</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="driver-selection-section">
+                        <div class="driver-selection-title">
+                            <h2>Staff Driver Selection</h2>
+                        </div>
+                        
+                        <div class="driver-list-container">
+                            <div class="driver-list">
+                                <div class="driver-item" data-driver-id="1">
+                                    <div class="driver-selection">
+                                        <input type="radio" name="selectedDriver" id="driver1" class="driver-radio">
+                                        <label for="driver1" class="driver-radio-label"></label>
+                                    </div>
+                                    <div class="driver-info">
+                                        <div class="driver-name">Ananiah</div>
+                                        <div class="driver-details">
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text">0.8 Miles</span>
+                                            </div>
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text available">Available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="driver-item" data-driver-id="2">
+                                    <div class="driver-selection">
+                                        <input type="radio" name="selectedDriver" id="driver2" class="driver-radio">
+                                        <label for="driver2" class="driver-radio-label"></label>
+                                    </div>
+                                    <div class="driver-info">
+                                        <div class="driver-name">Jessica</div>
+                                        <div class="driver-details">
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text">3.2 Miles</span>
+                                            </div>
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text available">Available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="driver-item" data-driver-id="3">
+                                    <div class="driver-selection">
+                                        <input type="radio" name="selectedDriver" id="driver3" class="driver-radio">
+                                        <label for="driver3" class="driver-radio-label"></label>
+                                    </div>
+                                    <div class="driver-info">
+                                        <div class="driver-name">David</div>
+                                        <div class="driver-details">
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text">6.7 Miles</span>
+                                            </div>
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text not-available">Not Available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="driver-item" data-driver-id="4">
+                                    <div class="driver-selection">
+                                        <input type="radio" name="selectedDriver" id="driver4" class="driver-radio">
+                                        <label for="driver4" class="driver-radio-label"></label>
+                                    </div>
+                                    <div class="driver-info">
+                                        <div class="driver-name">Sam</div>
+                                        <div class="driver-details">
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text">1.3 Miles</span>
+                                            </div>
+                                            <div class="driver-detail">
+                                                <span class="driver-icon">●</span>
+                                                <span class="driver-text available">Available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="driver-assignment-section">
+                            <button class="assign-selected-driver-btn" id="assignSelectedDriverBtn">
+                                Assign Selected Driver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Staff Driver Selection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const driverRadios = document.querySelectorAll('.driver-radio');
+            const driverItems = document.querySelectorAll('.driver-item');
+            const assignSelectedDriverBtn = document.getElementById('assignSelectedDriverBtn');
+            const assignDriverBtn = document.getElementById('assignDriverBtn');
+
+            // Handle driver selection
+            driverRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        const driverItem = this.closest('.driver-item');
+                        const driverName = driverItem.querySelector('.driver-name').textContent;
+                        const availability = driverItem.querySelector('.driver-text').textContent;
+                        
+                        // Update button state
+                        if (assignSelectedDriverBtn) {
+                            assignSelectedDriverBtn.disabled = false;
+                            assignSelectedDriverBtn.textContent = `Assign Selected Driver (${driverName})`;
+                        }
+                    }
+                });
+            });
+
+            // Handle driver item clicks
+            driverItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on the radio button itself
+                    if (e.target.type === 'radio' || e.target.tagName === 'LABEL') {
+                        return;
+                    }
+                    
+                    const radio = this.querySelector('.driver-radio');
+                    const availability = this.querySelector('.driver-text').textContent;
+                    
+                    // Only allow selection of available drivers
+                    if (availability === 'Available') {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));
+                    } else {
+                        alert('This driver is not available for assignment.');
+                    }
+                });
+            });
+
+            // Assign Selected Driver functionality
+            if (assignSelectedDriverBtn) {
+                assignSelectedDriverBtn.addEventListener('click', function() {
+                    const selectedRadio = document.querySelector('input[name="selectedDriver"]:checked');
+                    
+                    if (!selectedRadio) {
+                        alert('Please select a driver first.');
+                        return;
+                    }
+                    
+                    const driverItem = selectedRadio.closest('.driver-item');
+                    const driverName = driverItem.querySelector('.driver-name').textContent;
+                    const driverId = driverItem.dataset.driverId;
+                    const orderNumber = document.querySelector('.order-value').textContent;
+                    
+                    // Confirm assignment
+                    if (confirm(`Assign ${driverName} to Order #${orderNumber}?`)) {
+                        // Simulate assignment
+                        alert(`Driver ${driverName} has been successfully assigned to Order #${orderNumber}!\n\nOrder status updated to "In Progress".`);
+                        
+                        // Reset selection
+                        selectedRadio.checked = false;
+                        this.disabled = true;
+                        this.textContent = 'Assign Selected Driver';
+                        
+                        // Update driver availability (simulate)
+                        const availabilityText = driverItem.querySelector('.driver-text');
+                        availabilityText.textContent = 'Assigned';
+                        availabilityText.className = 'driver-text assigned';
+                        
+                        // Disable the driver item
+                        driverItem.style.opacity = '0.6';
+                        driverItem.style.pointerEvents = 'none';
+                    }
+                });
+            }
+
+            // Assign Available Driver dropdown functionality
+            if (assignDriverBtn) {
+                assignDriverBtn.addEventListener('click', function() {
+                    const availableDrivers = Array.from(driverItems).filter(item => {
+                        const availability = item.querySelector('.driver-text').textContent;
+                        return availability === 'Available';
+                    });
+                    
+                    if (availableDrivers.length === 0) {
+                        alert('No available drivers found.');
+                        return;
+                    }
+                    
+                    // Auto-select the closest available driver
+                    const closestDriver = availableDrivers[0]; // Ananiah is closest
+                    const radio = closestDriver.querySelector('.driver-radio');
+                    radio.checked = true;
+                    radio.dispatchEvent(new Event('change'));
+                    
+                    // Scroll to the selected driver
+                    closestDriver.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Highlight the selection
+                    closestDriver.style.backgroundColor = '#f0f9ff';
+                    setTimeout(() => {
+                        closestDriver.style.backgroundColor = '';
+                    }, 2000);
+                });
+            }
+
+            // Initialize button state
+            if (assignSelectedDriverBtn) {
+                assignSelectedDriverBtn.disabled = true;
+            }
+
+            // Add visual feedback for driver selection
+            driverItems.forEach(item => {
+                const radio = item.querySelector('.driver-radio');
+                const availability = item.querySelector('.driver-text').textContent;
+                
+                // Disable unavailable drivers
+                if (availability === 'Not Available') {
+                    item.style.opacity = '0.6';
+                    item.style.pointerEvents = 'none';
+                }
+                
+                // Add hover effects for available drivers
+                if (availability === 'Available') {
+                    item.addEventListener('mouseenter', function() {
+                        this.style.backgroundColor = '#f9fafb';
+                    });
+                    
+                    item.addEventListener('mouseleave', function() {
+                        if (!radio.checked) {
+                            this.style.backgroundColor = '';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

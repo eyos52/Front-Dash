@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Contact Information</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='contact-information';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="dashboard-container">
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-brand">FrontDash</h1>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <a href="restaurant-dashboard.html" class="nav-item">Orders</a>
+                    <a href="manage-menu.html" class="nav-item">Manage menu</a>
+                    <a href="hours-of-operation.html" class="nav-item">Hours of Operation</a>
+                    <a href="contact-information.html" class="nav-item active">Contact Information</a>
+                    <a href="change-password.html" class="nav-item">Change Password</a>
+                    <a href="withdraw-from-frontdash.html" class="nav-item">Withdraw from FrontDash</a>
+                    <a href="restaurant-login.html" class="nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="dashboard-main">
+                <div class="dashboard-header">
+                    <h2 class="page-title">Contact Information</h2>
+                </div>
+                
+                <div class="contact-form-container">
+                    <div class="contact-form">
+                        <div class="form-field">
+                            <label for="email">Email</label>
+                            <div class="field-input-group">
+                                <input type="email" id="email" class="contact-input" value="michaeljordan23@gmail.com" readonly>
+                                <button class="edit-field-btn" data-field="email">✏️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="phone">Phone Number</label>
+                            <div class="field-input-group">
+                                <input type="tel" id="phone" class="contact-input" value="+1 123-321-1231" readonly>
+                                <button class="edit-field-btn" data-field="phone">✏️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="firstName">First Name</label>
+                            <div class="field-input-group">
+                                <input type="text" id="firstName" class="contact-input" value="Bob" readonly>
+                                <button class="edit-field-btn" data-field="firstName">✏️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="lastName">Last Name</label>
+                            <div class="field-input-group">
+                                <input type="text" id="lastName" class="contact-input" value="Pob" readonly>
+                                <button class="edit-field-btn" data-field="lastName">✏️</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-description">
+                        <p>Restaurant- contact information</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Edit Field Dialog -->
+    <div id="editFieldDialog" class="edit-field-dialog" style="display: none;">
+        <div class="edit-field-dialog-content">
+            <div class="edit-field-dialog-header">
+                <h3>Edit Contact Information</h3>
+                <button class="close-field-btn">&times;</button>
+            </div>
+            <div class="edit-field-dialog-body">
+                <div class="form-group">
+                    <label for="editFieldInput" id="editFieldLabel">Field:</label>
+                    <input type="text" id="editFieldInput" placeholder="Enter value">
+                </div>
+            </div>
+            <div class="edit-field-dialog-footer">
+                <button class="field-cancel-btn">Cancel</button>
+                <button class="field-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Contact Information functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const editFieldButtons = document.querySelectorAll('.edit-field-btn');
+            const editFieldDialog = document.getElementById('editFieldDialog');
+            const closeFieldBtn = document.querySelector('.close-field-btn');
+            const fieldCancelBtn = document.querySelector('.field-cancel-btn');
+            const fieldSaveBtn = document.querySelector('.field-save-btn');
+            const editFieldInput = document.getElementById('editFieldInput');
+            const editFieldLabel = document.getElementById('editFieldLabel');
+            const navItems = document.querySelectorAll('.nav-item');
+            let currentEditField = null;
+
+            // Navigation functionality
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Navigate to the page
+                    if (href && href !== '#') {
+                        window.location.href = href;
+                    }
+                });
+            });
+
+            // Edit field button functionality
+            editFieldButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentEditField = this;
+                    
+                    const fieldName = this.dataset.field;
+                    const inputField = document.getElementById(fieldName);
+                    const currentValue = inputField.value;
+                    
+                    // Set the label and input value
+                    editFieldLabel.textContent = getFieldLabel(fieldName) + ':';
+                    editFieldInput.value = currentValue;
+                    
+                    // Set input type based on field
+                    if (fieldName === 'email') {
+                        editFieldInput.type = 'email';
+                    } else if (fieldName === 'phone') {
+                        editFieldInput.type = 'tel';
+                    } else {
+                        editFieldInput.type = 'text';
+                    }
+                    
+                    editFieldDialog.style.display = 'flex';
+                });
+            });
+
+            // Close field dialog
+            function closeFieldDialog() {
+                editFieldDialog.style.display = 'none';
+                currentEditField = null;
+            }
+
+            if (closeFieldBtn) {
+                closeFieldBtn.addEventListener('click', closeFieldDialog);
+            }
+
+            if (fieldCancelBtn) {
+                fieldCancelBtn.addEventListener('click', closeFieldDialog);
+            }
+
+            // Save field changes
+            if (fieldSaveBtn) {
+                fieldSaveBtn.addEventListener('click', function() {
+                    if (currentEditField) {
+                        const fieldName = currentEditField.dataset.field;
+                        const newValue = editFieldInput.value;
+                        
+                        const inputField = document.getElementById(fieldName);
+                        inputField.value = newValue;
+                    }
+                    closeFieldDialog();
+                });
+            }
+
+            // Close dialog when clicking outside
+            if (editFieldDialog) {
+                editFieldDialog.addEventListener('click', function(e) {
+                    if (e.target === editFieldDialog) {
+                        closeFieldDialog();
+                    }
+                });
+            }
+
+            // Helper function to get field labels
+            function getFieldLabel(fieldName) {
+                const labels = {
+                    'email': 'Email',
+                    'phone': 'Phone Number',
+                    'firstName': 'First Name',
+                    'lastName': 'Last Name'
+                };
+                return labels[fieldName] || fieldName;
+            }
+        });
+    </script>
+</body>
+</html>

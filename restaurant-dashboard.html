@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Restaurant Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='restaurant-dashboard';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="dashboard-container">
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-brand">FrontDash</h1>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <a href="restaurant-dashboard.html" class="nav-item active">Orders</a>
+                    <a href="manage-menu.html" class="nav-item">Manage menu</a>
+                    <a href="hours-of-operation.html" class="nav-item">Hours of Operation</a>
+                    <a href="contact-information.html" class="nav-item">Contact Information</a>
+                    <a href="change-password.html" class="nav-item">Change Password</a>
+                    <a href="withdraw-from-frontdash.html" class="nav-item">Withdraw from FrontDash</a>
+                    <a href="restaurant-login.html" class="nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="dashboard-main">
+                <div class="dashboard-header">
+                    <h2 class="page-title">Orders</h2>
+                    <p class="page-subtitle">Track all your orders</p>
+                </div>
+                
+                <div class="dashboard-controls">
+                    <div class="status-tabs">
+                        <button class="tab-btn active">Active</button>
+                        <button class="tab-btn">Scheduled</button>
+                        <button class="tab-btn">History</button>
+                    </div>
+                    
+                    <div class="search-section">
+                        <div class="search-bar">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Search orders" class="search-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="orders-table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Customer</th>
+                                <th>Deliverer</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1111111</td>
+                                <td><span class="status-badge arrived">Arrived</span></td>
+                                <td>07/30</td>
+                                <td>2:24 pm</td>
+                                <td>Alex</td>
+                                <td>Jim</td>
+                                <td>$15</td>
+                            </tr>
+                            <tr>
+                                <td>1111111</td>
+                                <td><span class="status-badge in-transit">In transit</span></td>
+                                <td>07/30</td>
+                                <td>2:24 pm</td>
+                                <td>Conor</td>
+                                <td>TimActiv</td>
+                                <td>$15</td>
+                            </tr>
+                            <tr>
+                                <td>1111111</td>
+                                <td><span class="status-badge arrived">Arrived</span></td>
+                                <td>07/30</td>
+                                <td>2:24 pm</td>
+                                <td>Eyo</td>
+                                <td>Lin</td>
+                                <td>$15</td>
+                            </tr>
+                            <tr>
+                                <td>1111111</td>
+                                <td><span class="status-badge arrived">Arrived</span></td>
+                                <td>07/30</td>
+                                <td>2:24 pm</td>
+                                <td>Jonathan</td>
+                                <td>Kim</td>
+                                <td>$15</td>
+                            </tr>
+                            <tr>
+                                <td>1111111</td>
+                                <td><span class="status-badge in-transit">In transit</span></td>
+                                <td>07/30</td>
+                                <td>2:24 pm</td>
+                                <td>Alex</td>
+                                <td>Jim</td>
+                                <td>$15</td>
+                            </tr>
+                            <tr>
+                                <td>1111111</td>
+                                <td><span class="status-badge arrived">Arrived</span></td>
+                                <td>07/30</td>
+                                <td>2:24 pm</td>
+                                <td>Conor</td>
+                                <td>Jim</td>
+                                <td>$15</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Restaurant Dashboard functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const searchInput = document.querySelector('.search-input');
+            const ordersTable = document.querySelector('.orders-table tbody');
+
+            // Navigation functionality
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Navigate to the page
+                    if (href && href !== '#') {
+                        window.location.href = href;
+                    }
+                });
+            });
+
+            // Tab functionality
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabBtns.forEach(tab => tab.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Update table data based on selected tab
+                    updateTableData(this.textContent.trim());
+                });
+            });
+
+            // Search functionality
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const tableRows = document.querySelectorAll('.orders-table tbody tr');
+                    
+                    tableRows.forEach(row => {
+                        const orderId = row.cells[0].textContent.toLowerCase();
+                        const customer = row.cells[4].textContent.toLowerCase();
+                        const deliverer = row.cells[5].textContent.toLowerCase();
+                        const status = row.cells[1].textContent.toLowerCase();
+                        
+                        if (orderId.includes(searchTerm) || 
+                            customer.includes(searchTerm) || 
+                            deliverer.includes(searchTerm) ||
+                            status.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Update table data based on selected tab
+            function updateTableData(tabName) {
+                const tableBody = document.querySelector('.orders-table tbody');
+                
+                if (tabName === 'Active') {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td>1111111</td>
+                            <td><span class="status-badge in-transit">In transit</span></td>
+                            <td>07/30</td>
+                            <td>2:24 pm</td>
+                            <td>Conor</td>
+                            <td>TimActiv</td>
+                            <td>$15</td>
+                        </tr>
+                        <tr>
+                            <td>1111112</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                            <td>07/30</td>
+                            <td>3:15 pm</td>
+                            <td>Sarah</td>
+                            <td>Assigned</td>
+                            <td>$22</td>
+                        </tr>
+                        <tr>
+                            <td>1111113</td>
+                            <td><span class="status-badge in-transit">In transit</span></td>
+                            <td>07/30</td>
+                            <td>4:30 pm</td>
+                            <td>Mike</td>
+                            <td>Jim</td>
+                            <td>$18</td>
+                        </tr>
+                    `;
+                } else if (tabName === 'Scheduled') {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td>1111114</td>
+                            <td><span class="status-badge scheduled">Scheduled</span></td>
+                            <td>07/31</td>
+                            <td>12:00 pm</td>
+                            <td>Emma</td>
+                            <td>Not Assigned</td>
+                            <td>$25</td>
+                        </tr>
+                        <tr>
+                            <td>1111115</td>
+                            <td><span class="status-badge scheduled">Scheduled</span></td>
+                            <td>07/31</td>
+                            <td>6:00 pm</td>
+                            <td>David</td>
+                            <td>Not Assigned</td>
+                            <td>$30</td>
+                        </tr>
+                    `;
+                } else if (tabName === 'History') {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td>1111111</td>
+                            <td><span class="status-badge arrived">Arrived</span></td>
+                            <td>07/30</td>
+                            <td>2:24 pm</td>
+                            <td>Alex</td>
+                            <td>Jim</td>
+                            <td>$15</td>
+                        </tr>
+                        <tr>
+                            <td>1111111</td>
+                            <td><span class="status-badge arrived">Arrived</span></td>
+                            <td>07/30</td>
+                            <td>2:24 pm</td>
+                            <td>Eyo</td>
+                            <td>Lin</td>
+                            <td>$15</td>
+                        </tr>
+                        <tr>
+                            <td>1111111</td>
+                            <td><span class="status-badge arrived">Arrived</span></td>
+                            <td>07/30</td>
+                            <td>2:24 pm</td>
+                            <td>Jonathan</td>
+                            <td>Kim</td>
+                            <td>$15</td>
+                        </tr>
+                        <tr>
+                            <td>1111111</td>
+                            <td><span class="status-badge arrived">Arrived</span></td>
+                            <td>07/30</td>
+                            <td>2:24 pm</td>
+                            <td>Conor</td>
+                            <td>Jim</td>
+                            <td>$15</td>
+                        </tr>
+                    `;
+                }
+            }
+
+            // Initialize with Active tab data
+            updateTableData('Active');
+        });
+    </script>
+</body>
+</html>

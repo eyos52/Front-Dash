@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontDash - Hours of Operation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+    <script>window.__PAGE__='hours-of-operation';</script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="dashboard-container">
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-brand">FrontDash</h1>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <a href="restaurant-dashboard.html" class="nav-item">Orders</a>
+                    <a href="manage-menu.html" class="nav-item">Manage menu</a>
+                    <a href="hours-of-operation.html" class="nav-item active">Hours of Operation</a>
+                    <a href="contact-information.html" class="nav-item">Contact Information</a>
+                    <a href="change-password.html" class="nav-item">Change Password</a>
+                    <a href="withdraw-from-frontdash.html" class="nav-item">Withdraw from FrontDash</a>
+                    <a href="restaurant-login.html" class="nav-item">Logout</a>
+                </nav>
+            </aside>
+            
+            <main class="dashboard-main">
+                <div class="dashboard-header">
+                    <h2 class="page-title">Hours of Operation</h2>
+                </div>
+                
+                <div class="hours-table-container">
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Opens</th>
+                                <th>Closes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>
+                                    <input type="text" class="time-input" value="" placeholder="Enter time">
+                                    <button class="edit-time-btn" data-day="sunday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="sunday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Monday</td>
+                                <td>
+                                    <input type="text" class="time-input" value="" placeholder="Enter time">
+                                    <label class="closed-checkbox">
+                                        <input type="checkbox" class="closed-all-day" data-day="monday"> Closed all day
+                                    </label>
+                                    <button class="edit-time-btn" data-day="monday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="monday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>
+                                    <span class="time-display">8:30 AM</span>
+                                    <button class="edit-time-btn" data-day="tuesday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="tuesday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>
+                                    <span class="time-display">8:30 AM</span>
+                                    <button class="edit-time-btn" data-day="wednesday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="wednesday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>
+                                    <span class="time-display">8:30 AM</span>
+                                    <button class="edit-time-btn" data-day="thursday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="thursday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>
+                                    <span class="time-display">8:30 AM</span>
+                                    <button class="edit-time-btn" data-day="friday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="friday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>
+                                    <span class="time-display">8:30 AM</span>
+                                    <button class="edit-time-btn" data-day="saturday" data-type="opens">✏️</button>
+                                </td>
+                                <td>
+                                    <span class="time-display">6:00 PM</span>
+                                    <button class="edit-time-btn" data-day="saturday" data-type="closes">✏️</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Edit Time Dialog -->
+    <div id="editTimeDialog" class="edit-time-dialog" style="display: none;">
+        <div class="edit-time-dialog-content">
+            <div class="edit-time-dialog-header">
+                <h3>Edit Hours</h3>
+                <button class="close-time-btn">&times;</button>
+            </div>
+            <div class="edit-time-dialog-body">
+                <div class="form-group">
+                    <label for="editTimeInput">Time:</label>
+                    <input type="time" id="editTimeInput">
+                </div>
+            </div>
+            <div class="edit-time-dialog-footer">
+                <button class="time-cancel-btn">Cancel</button>
+                <button class="time-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="deals-data.js"></script>
+    <script src="deals.js"></script>
+    <script src="location.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Hours of Operation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const editTimeButtons = document.querySelectorAll('.edit-time-btn');
+            const editTimeDialog = document.getElementById('editTimeDialog');
+            const closeTimeBtn = document.querySelector('.close-time-btn');
+            const timeCancelBtn = document.querySelector('.time-cancel-btn');
+            const timeSaveBtn = document.querySelector('.time-save-btn');
+            const editTimeInput = document.getElementById('editTimeInput');
+            const navItems = document.querySelectorAll('.nav-item');
+            let currentEditButton = null;
+
+            // Navigation functionality
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Navigate to the page
+                    if (href && href !== '#') {
+                        window.location.href = href;
+                    }
+                });
+            });
+
+            // Handle closed all day checkbox
+            const closedCheckboxes = document.querySelectorAll('.closed-all-day');
+            closedCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const day = this.dataset.day;
+                    const timeInput = this.closest('td').querySelector('.time-input');
+                    const timeDisplay = this.closest('td').querySelector('.time-display');
+                    
+                    if (this.checked) {
+                        if (timeInput) timeInput.value = '';
+                        if (timeDisplay) timeDisplay.textContent = 'Closed';
+                    } else {
+                        if (timeInput) timeInput.value = '';
+                        if (timeDisplay) timeDisplay.textContent = '8:30 AM';
+                    }
+                });
+            });
+
+            // Edit time button functionality
+            editTimeButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentEditButton = this;
+                    
+                    const day = this.dataset.day;
+                    const type = this.dataset.type;
+                    const timeDisplay = this.previousElementSibling;
+                    const timeInput = this.closest('td').querySelector('.time-input');
+                    const currentTime = timeDisplay ? timeDisplay.textContent : (timeInput ? timeInput.value : '');
+                    
+                    // Convert 12-hour format to 24-hour format for input
+                    const time24 = convertTo24Hour(currentTime);
+                    editTimeInput.value = time24;
+                    
+                    editTimeDialog.style.display = 'flex';
+                });
+            });
+
+            // Close time dialog
+            function closeTimeDialog() {
+                editTimeDialog.style.display = 'none';
+                currentEditButton = null;
+            }
+
+            if (closeTimeBtn) {
+                closeTimeBtn.addEventListener('click', closeTimeDialog);
+            }
+
+            if (timeCancelBtn) {
+                timeCancelBtn.addEventListener('click', closeTimeDialog);
+            }
+
+            // Save time changes
+            if (timeSaveBtn) {
+                timeSaveBtn.addEventListener('click', function() {
+                    if (currentEditButton) {
+                        const newTime24 = editTimeInput.value;
+                        const newTime12 = convertTo12Hour(newTime24);
+                        
+                        const timeDisplay = currentEditButton.previousElementSibling;
+                        const timeInput = currentEditButton.closest('td').querySelector('.time-input');
+                        
+                        if (timeDisplay) timeDisplay.textContent = newTime12;
+                        if (timeInput) timeInput.value = newTime12;
+                    }
+                    closeTimeDialog();
+                });
+            }
+
+            // Close dialog when clicking outside
+            if (editTimeDialog) {
+                editTimeDialog.addEventListener('click', function(e) {
+                    if (e.target === editTimeDialog) {
+                        closeTimeDialog();
+                    }
+                });
+            }
+
+            // Helper function to convert 12-hour to 24-hour format
+            function convertTo24Hour(time12) {
+                const [time, period] = time12.split(' ');
+                const [hours, minutes] = time.split(':');
+                let hour24 = parseInt(hours);
+                
+                if (period === 'PM' && hour24 !== 12) {
+                    hour24 += 12;
+                } else if (period === 'AM' && hour24 === 12) {
+                    hour24 = 0;
+                }
+                
+                return `${hour24.toString().padStart(2, '0')}:${minutes}`;
+            }
+
+            // Helper function to convert 24-hour to 12-hour format
+            function convertTo12Hour(time24) {
+                const [hours, minutes] = time24.split(':');
+                let hour12 = parseInt(hours);
+                const period = hour12 >= 12 ? 'PM' : 'AM';
+                
+                if (hour12 === 0) {
+                    hour12 = 12;
+                } else if (hour12 > 12) {
+                    hour12 -= 12;
+                }
+                
+                return `${hour12}:${minutes} ${period}`;
+            }
+        });
+    </script>
+</body>
+</html>
